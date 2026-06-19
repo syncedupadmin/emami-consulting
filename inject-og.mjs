@@ -11,7 +11,7 @@ for (const slug of SLUGS) {
   let s = fs.readFileSync(path, 'utf8')
   // strip any prior injected block (idempotent)
   s = s.replace(/\n?\s*<!-- OG:START -->[\s\S]*?<!-- OG:END -->\n?/g, '\n')
-  const img = `${SITE}/og/${slug}.jpg`
+  const img = `${SITE}/og/${slug}.jpg?v=2`
   const url = `${SITE}/concepts/${slug}.html`
   const block = `  <!-- OG:START -->
   <meta property="og:type" content="website" />
