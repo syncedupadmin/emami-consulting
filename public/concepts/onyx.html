@@ -10,12 +10,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <style>
   :root{
-    --bg:#070E16;
-    --surface:#0E1925;
+    --bg:#0A0D11;
+    --surface:#11161F;
     --text:#EAF1F6;
-    --muted:#8CA0AE;
-    --accent:#34E1C4;
-    --gold:#C9A24B;
+    --muted:#8E9AAE;
+    --accent:#6E8FFF;        /* Dr. Emami brand periwinkle/cornflower blue */
+    --accent-bright:#2F80ED; /* brighter blue, depth */
+    --accent-glow:#00D4FF;   /* electric cyan, scan-line glow only */
+    --gold:#C9A24B;          /* single thin gold hairline nod to his gold logo */
     --hair:rgba(234,241,246,0.12);
     --hair-strong:rgba(234,241,246,0.20);
     --display:"Space Grotesk",system-ui,sans-serif;
@@ -55,7 +57,7 @@
   /* ---------- NAV ---------- */
   .nav{
     position:fixed;top:0;left:0;right:0;z-index:50;
-    background:rgba(7,14,22,0.6);
+    background:rgba(10,13,17,0.62);
     backdrop-filter:blur(16px) saturate(140%);
     -webkit-backdrop-filter:blur(16px) saturate(140%);
     border-bottom:1px solid var(--hair);
@@ -84,33 +86,61 @@
     transition:transform .25s ease,box-shadow .25s ease;
     white-space:nowrap;
   }
-  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(52,225,196,0.35);}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(110,143,255,0.40);}
   .nav-cta svg{flex:0 0 auto;}
 
-  /* ---------- HERO ---------- */
+  /* ---------- HERO (Eterno scroll-scrub) ---------- */
+  /* TALL section drives the scrub; the stage inside is sticky/full-viewport */
   .hero{
-    position:relative;min-height:100svh;
-    display:flex;align-items:flex-end;
+    position:relative;
+    height:220vh;            /* mobile */
+    z-index:1;
+  }
+  .hero-stage{
+    position:sticky;top:0;
+    height:100vh;height:100dvh;
     overflow:hidden;
-    padding-bottom:clamp(56px,9vh,110px);
-    padding-top:120px;
+    display:flex;align-items:flex-end;
   }
   .hero-video{
     position:absolute;inset:0;width:100%;height:100%;
     object-fit:cover;z-index:0;
-    filter:saturate(0.92) contrast(1.04) brightness(0.82);
+    filter:saturate(0.92) contrast(1.04) brightness(0.80);
   }
-  /* scrim: bottom-weighted on mobile */
+  /* scrim: top+bottom weighted on mobile (data-hero-overlay) */
   .hero-scrim{
-    position:absolute;inset:0;z-index:1;
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    will-change:opacity;
     background:
-      linear-gradient(to top, rgba(7,14,22,0.97) 8%, rgba(7,14,22,0.78) 34%, rgba(7,14,22,0.30) 64%, rgba(7,14,22,0.55) 100%);
+      linear-gradient(to top, rgba(10,13,17,0.97) 8%, rgba(10,13,17,0.78) 34%, rgba(10,13,17,0.30) 60%, rgba(10,13,17,0.62) 100%);
   }
   .hero-vignette{
     position:absolute;inset:0;z-index:1;pointer-events:none;
-    background:radial-gradient(120% 90% at 50% 0%, rgba(7,14,22,0) 40%, rgba(7,14,22,0.55) 100%);
+    background:radial-gradient(120% 90% at 50% 0%, rgba(10,13,17,0) 40%, rgba(10,13,17,0.55) 100%);
   }
-  .hero-content{position:relative;z-index:2;width:100%;}
+  .hero-content{
+    position:relative;z-index:2;width:100%;
+    padding-bottom:clamp(56px,9vh,110px);
+    will-change:opacity,transform;
+  }
+
+  /* cinematic centered tagline — Eterno phase 3 */
+  .hero-tagline{
+    position:absolute;inset:0;z-index:2;
+    display:grid;place-items:center;
+    text-align:center;pointer-events:none;
+    opacity:0;will-change:opacity;
+    padding-inline:var(--gut);
+  }
+  .hero-tagline span{
+    font-family:var(--display);font-weight:500;
+    font-size:clamp(1.5rem,5.4vw,3.4rem);
+    letter-spacing:0.42em;
+    text-transform:uppercase;
+    color:var(--text);
+    text-indent:0.42em;          /* balance the trailing letter-spacing */
+    text-shadow:0 0 32px rgba(110,143,255,0.55),0 0 64px rgba(47,128,237,0.30);
+  }
 
   .hero-kicker{
     display:flex;align-items:center;gap:12px;
@@ -148,9 +178,9 @@
   }
   .btn-primary{
     background:var(--accent);color:var(--bg);
-    box-shadow:0 0 0 rgba(52,225,196,0);
+    box-shadow:0 0 0 rgba(110,143,255,0);
   }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(52,225,196,0.30);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(110,143,255,0.34);}
   .btn-ghost{
     color:var(--text);border:1px solid var(--hair-strong);background:transparent;
   }
@@ -174,8 +204,8 @@
   /* signature scan line living in the hero */
   .scanline{
     position:absolute;left:0;right:0;z-index:1;height:1px;
-    background:linear-gradient(90deg, transparent, rgba(52,225,196,0.0) 8%, var(--accent) 50%, rgba(52,225,196,0.0) 92%, transparent);
-    box-shadow:0 0 14px 1px rgba(52,225,196,0.55);
+    background:linear-gradient(90deg, transparent, rgba(0,212,255,0.0) 8%, var(--accent-glow) 50%, rgba(0,212,255,0.0) 92%, transparent);
+    box-shadow:0 0 14px 1px rgba(47,128,237,0.55);
     opacity:0.0;
     animation:scan 7.5s cubic-bezier(.6,0,.2,1) infinite;
     pointer-events:none;
@@ -246,13 +276,13 @@
     padding:26px 0;border-bottom:1px solid var(--hair);
     transition:background .3s ease,padding-left .3s ease;
   }
-  .cap:hover{background:linear-gradient(90deg, rgba(52,225,196,0.04), transparent 60%);padding-left:8px;}
+  .cap:hover{background:linear-gradient(90deg, rgba(110,143,255,0.05), transparent 60%);padding-left:8px;}
   .cap-ico{
     flex:0 0 auto;width:46px;height:46px;border:1px solid var(--hair-strong);
     border-radius:3px;display:grid;place-items:center;color:var(--accent);
     transition:border-color .3s ease;
   }
-  .cap:hover .cap-ico{border-color:rgba(52,225,196,0.5);}
+  .cap:hover .cap-ico{border-color:rgba(110,143,255,0.5);}
   .cap-body h3{
     font-family:var(--display);font-weight:500;font-size:1.1rem;
     letter-spacing:-0.01em;margin-bottom:4px;
@@ -283,7 +313,7 @@
   .offer-aside{
     padding:clamp(28px,5vw,52px);
     border-top:1px solid var(--hair);
-    background:rgba(7,14,22,0.4);
+    background:rgba(10,13,17,0.4);
     display:flex;flex-direction:column;justify-content:space-between;gap:28px;
   }
   .offer-tag{display:flex;align-items:center;gap:12px;margin-bottom:22px;}
@@ -323,7 +353,7 @@
     content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);
     width:min(620px,80%);height:1px;
     background:linear-gradient(90deg,transparent,var(--accent),transparent);
-    box-shadow:0 0 18px 1px rgba(52,225,196,0.4);
+    box-shadow:0 0 18px 1px rgba(47,128,237,0.42);
   }
   .close h2{
     font-family:var(--display);font-weight:700;
@@ -366,11 +396,12 @@
     .stat{padding:34px 0 30px;}
   }
   @media (min-width:768px){
+    .hero{height:280vh;}
     /* left-weighted scrim on desktop */
     .hero-scrim{
       background:
-        linear-gradient(105deg, rgba(7,14,22,0.95) 0%, rgba(7,14,22,0.82) 30%, rgba(7,14,22,0.40) 62%, rgba(7,14,22,0.18) 100%),
-        linear-gradient(to top, rgba(7,14,22,0.65), rgba(7,14,22,0) 40%);
+        linear-gradient(105deg, rgba(10,13,17,0.95) 0%, rgba(10,13,17,0.82) 30%, rgba(10,13,17,0.40) 62%, rgba(10,13,17,0.16) 100%),
+        linear-gradient(to top, rgba(10,13,17,0.65), rgba(10,13,17,0) 40%);
     }
     .caps-head{flex-wrap:nowrap;}
     .cap-grid{grid-template-columns:1fr 1fr;column-gap:56px;}
@@ -391,10 +422,10 @@
       <span class="brand-mark" aria-hidden="true">
         <!-- roadmap mark: nodes connected by a path -->
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-          <path d="M6 23 C 11 23, 11 15, 15 15 C 19 15, 19 7, 24 7" stroke="#34E1C4" stroke-width="1.5" stroke-linecap="round"/>
-          <circle cx="6" cy="23" r="2.4" fill="#070E16" stroke="#EAF1F6" stroke-width="1.4"/>
-          <circle cx="15" cy="15" r="2.4" fill="#070E16" stroke="#EAF1F6" stroke-width="1.4"/>
-          <circle cx="24" cy="7" r="2.6" fill="#34E1C4"/>
+          <path d="M6 23 C 11 23, 11 15, 15 15 C 19 15, 19 7, 24 7" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="6" cy="23" r="2.4" fill="#0A0D11" stroke="#EAF1F6" stroke-width="1.4"/>
+          <circle cx="15" cy="15" r="2.4" fill="#0A0D11" stroke="#EAF1F6" stroke-width="1.4"/>
+          <circle cx="24" cy="7" r="2.6" fill="#6E8FFF"/>
         </svg>
       </span>
       <span class="brand-name">Emami Consulting
@@ -408,49 +439,56 @@
   </div>
 </header>
 
-<!-- ============ HERO ============ -->
-<section class="hero" id="top">
-  <video class="hero-video" autoplay loop muted playsinline preload="auto"
-         poster="/videos/hero-desktop-poster.jpg">
-    <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
-    <source src="/videos/hero-desktop.mp4" type="video/mp4" />
-  </video>
-  <div class="hero-scrim"></div>
-  <div class="hero-vignette"></div>
-  <div class="scanline" aria-hidden="true"></div>
+<!-- ============ HERO (Eterno scroll-scrub) ============ -->
+<section class="hero" id="top" data-hero>
+  <div class="hero-stage">
+    <video class="hero-video" muted playsinline preload="auto" tabindex="-1"
+           poster="/videos/hero-desktop-poster.jpg">
+      <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
+      <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+    </video>
+    <div class="hero-scrim" data-hero-overlay></div>
+    <div class="hero-vignette"></div>
+    <div class="scanline" aria-hidden="true"></div>
 
-  <div class="hero-content">
-    <div class="wrap">
-      <div class="hero-kicker reveal in">
-        <span class="rule"></span>
-        <span class="mono">Vendor-neutral<span class="dot"> · </span>Advisory, not sales</span>
+    <div class="hero-content" data-hero-content>
+      <div class="wrap">
+        <div class="hero-kicker reveal in">
+          <span class="rule"></span>
+          <span class="mono">Vendor-neutral<span class="dot"> · </span>Advisory, not sales</span>
+        </div>
+
+        <h1 class="hero-h reveal in d1">
+          Know exactly what to buy
+          <span class="accent">before</span> you spend $150K.
+        </h1>
+
+        <p class="hero-sub reveal in d2">
+          Emami Consulting builds an <strong>expert-reviewed implementation roadmap</strong> for dental practices, so you buy the right scanner, CBCT, mill and full-arch workflow, in the right order, for the right reasons. No vendor. No commission. No regret.
+        </p>
+
+        <div class="hero-actions reveal in d3">
+          <a class="btn btn-primary" href="/intake">
+            Build my roadmap
+            <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#offer">Book a call</a>
+        </div>
+
+        <div class="hero-trust reveal in d4">
+          <span class="badge" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 11.4 6l4.9.7-3.6 3.5.9 4.9L9 12.8 4.4 15.1l.9-4.9L1.7 6.7 6.6 6 9 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="t-text">
+            Authored &amp; signed off by <b>Dr. Justin Emami, DDS</b>, Fellow, Misch International Implant Institute · Master, ICOI · CEREC same-day &amp; full-arch implant practitioner.
+          </span>
+        </div>
       </div>
+    </div>
 
-      <h1 class="hero-h reveal in d1">
-        Know exactly what to buy
-        <span class="accent">before</span> you spend $150K.
-      </h1>
-
-      <p class="hero-sub reveal in d2">
-        Emami Consulting builds an <strong>expert-reviewed implementation roadmap</strong> for dental practices, so you buy the right scanner, CBCT, mill and full-arch workflow, in the right order, for the right reasons. No vendor. No commission. No regret.
-      </p>
-
-      <div class="hero-actions reveal in d3">
-        <a class="btn btn-primary" href="/intake">
-          Build my roadmap
-          <svg width="15" height="15" viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7.5 3.5 11 7l-3.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a class="btn btn-ghost" href="#offer">Book a call</a>
-      </div>
-
-      <div class="hero-trust reveal in d4">
-        <span class="badge" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5 11.4 6l4.9.7-3.6 3.5.9 4.9L9 12.8 4.4 15.1l.9-4.9L1.7 6.7 6.6 6 9 1.5Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
-        </span>
-        <span class="t-text">
-          Authored &amp; signed off by <b>Dr. Justin Emami, DDS</b> — Fellow, Misch International Implant Institute · Master, ICOI · CEREC same-day &amp; full-arch implant practitioner.
-        </span>
-      </div>
+    <!-- cinematic centered tagline, fades in on the final scroll phase -->
+    <div class="hero-tagline" data-hero-tagline aria-hidden="true">
+      <span>Clarity Before Capital</span>
     </div>
   </div>
 </section>
@@ -496,7 +534,7 @@
     <div class="cap-grid">
       <article class="cap reveal">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 9V6a2 2 0 0 1 2-2h3M20 15v3a2 2 0 0 1-2 2h-3M4 15v3a2 2 0 0 0 2 2h3M20 9V6a2 2 0 0 0-2-2h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 12h10" stroke="#34E1C4" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 9V6a2 2 0 0 1 2-2h3M20 15v3a2 2 0 0 1-2 2h-3M4 15v3a2 2 0 0 0 2 2h3M20 9V6a2 2 0 0 0-2-2h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 12h10" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Intraoral scanners</h3>
@@ -507,7 +545,7 @@
 
       <article class="cap reveal d1">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.4" stroke="#34E1C4" stroke-width="1.5"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.4" stroke="#6E8FFF" stroke-width="1.5"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>CBCT 3D imaging</h3>
@@ -518,7 +556,7 @@
 
       <article class="cap reveal d2">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h14M7 4v5l-2 9a2 2 0 0 0 2 2.4h10A2 2 0 0 0 19 18l-2-9V4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 12.5h5" stroke="#34E1C4" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h14M7 4v5l-2 9a2 2 0 0 0 2 2.4h10A2 2 0 0 0 19 18l-2-9V4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 12.5h5" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Chairside milling / CEREC</h3>
@@ -529,7 +567,7 @@
 
       <article class="cap reveal">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8 12 4l8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 8v8l8 4 8-4V8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 12v8" stroke="#34E1C4" stroke-width="1.5"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8 12 4l8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 8v8l8 4 8-4V8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 12v8" stroke="#6E8FFF" stroke-width="1.5"/></svg>
         </span>
         <div class="cap-body">
           <h3>3D printing</h3>
@@ -540,7 +578,7 @@
 
       <article class="cap reveal d1">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v6m0 0c-2 0-4 1.6-4 4.4C8 17 9.8 21 12 21s4-4 4-7.6C16 10.6 14 9 12 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 6.5 12 9l2.5-2.5" stroke="#34E1C4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v6m0 0c-2 0-4 1.6-4 4.4C8 17 9.8 21 12 21s4-4 4-7.6C16 10.6 14 9 12 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 6.5 12 9l2.5-2.5" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Guided implant surgery</h3>
@@ -551,7 +589,7 @@
 
       <article class="cap reveal d2">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12c3-4 6-4 9 0s6 4 9 0" stroke="#34E1C4" stroke-width="1.5" stroke-linecap="round"/><path d="M3 17c3-3 6-3 9 0s6 3 9 0M3 7c3-3 6-3 9 0s6 3 9 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12c3-4 6-4 9 0s6 4 9 0" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/><path d="M3 17c3-3 6-3 9 0s6 3 9 0M3 7c3-3 6-3 9 0s6 3 9 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Sedation workflows</h3>
@@ -657,10 +695,38 @@
     els.forEach(function(e){io.observe(e);});
   })();
 
-  // Ensure autoplay kicks in after source selection on some browsers
+  // Eterno-style scroll-scrub hero: video seeks frame-by-frame with scroll.
   (function(){
-    var v = document.querySelector('.hero-video');
-    if(v){ var p = v.play(); if(p && p.catch){ p.catch(function(){}); } }
+    var hero=document.querySelector('[data-hero]');
+    if(!hero) return;
+    var video=hero.querySelector('video');
+    var content=hero.querySelector('[data-hero-content]');
+    var overlay=hero.querySelector('[data-hero-overlay]');
+    var tagline=hero.querySelector('[data-hero-tagline]');
+    var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+    var target=0;
+    function dur(){ var d=video&&video.duration; return (d&&isFinite(d))?d:0; }
+    function clamp(v){return v<0?0:(v>1?1:v);}
+    function progress(){
+      var total=hero.offsetHeight-window.innerHeight;
+      return clamp(-hero.getBoundingClientRect().top/(total||1));
+    }
+    function update(){
+      var p=progress();
+      var D=dur(); if(D) target=p*(D-0.05);
+      if(content){ var cO=p<0.18?1:(p>0.4?0:1-(p-0.18)/0.22); content.style.opacity=cO; content.style.transform='translateY('+(p<0.18?0:-(clamp((p-0.18)/0.22))*60)+'px)'; }
+      if(overlay){ overlay.style.opacity = p<0.3?1:(p>0.62?0.18:1-(p-0.3)/0.32*0.82); }
+      if(tagline){ var t=clamp((p-0.42)/0.16), o=p>0.9?clamp(1-(p-0.9)/0.1):t; tagline.style.opacity=(p<0.42?0:o); }
+    }
+    function raf(){ if(!reduce && video && dur() && !video.seeking){ var d=target-video.currentTime; if(Math.abs(d)>0.001){ try{ video.currentTime = video.currentTime + d*0.25; }catch(e){} } } requestAnimationFrame(raf); }
+    if(video){
+      video.addEventListener('loadedmetadata',function(){ try{video.currentTime=0;}catch(e){} update(); });
+      if(video.readyState>=1){ try{video.currentTime=0;}catch(e){} update(); }
+      if(reduce){ video.setAttribute('autoplay',''); video.setAttribute('loop',''); var p=video.play(); if(p&&p.catch){p.catch(function(){});} }
+    }
+    window.addEventListener('scroll',update,{passive:true});
+    window.addEventListener('resize',update);
+    update(); requestAnimationFrame(raf);
   })();
 </script>
 

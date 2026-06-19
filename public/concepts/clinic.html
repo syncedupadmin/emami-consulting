@@ -11,11 +11,15 @@
 <style>
   :root{
     --bg:#FFFFFF;
-    --tint:#F1F5F7;
+    --tint:#F0F4FF;
+    --tint-deep:#E1E8FD;
     --ink:#0B1A28;
     --muted:#5B6B78;
-    --accent:#0E7C6B;
-    --accent-deep:#0A6354;
+    --accent:#6E8FFF;          /* brand periwinkle — fills/dots */
+    --accent-text:#2F80ED;     /* deeper blue — accent text/underlines (legible on white) */
+    --accent-deep:#2F80ED;     /* button hover */
+    --glow:#00D4FF;            /* electric cyan — depth/glow only */
+    --gold:#C9A24B;            /* thin gold hairline accent detail */
     --line:rgba(11,26,40,0.10);
     --line-strong:rgba(11,26,40,0.16);
     --maxw:1200px;
@@ -71,9 +75,9 @@
     text-transform:uppercase;
     letter-spacing:0.18em;
     font-size:11px;
-    color:var(--accent);
+    color:var(--accent-text);
   }
-  .eyebrow .tick{width:18px;height:1px;background:var(--accent);display:inline-block}
+  .eyebrow .tick{width:18px;height:1px;background:var(--accent-text);display:inline-block}
 
   /* ---- Buttons ---- */
   .btn{
@@ -85,8 +89,8 @@
     transition:transform .18s ease,background .18s ease,box-shadow .18s ease,color .18s ease;
     cursor:pointer;line-height:1;white-space:nowrap;
   }
-  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(14,124,107,.25)}
-  .btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px);box-shadow:0 8px 22px rgba(14,124,107,.22)}
+  .btn-primary{background:var(--accent);color:#fff;box-shadow:0 1px 2px rgba(110,143,255,.30)}
+  .btn-primary:hover{background:var(--accent-deep);transform:translateY(-1px);box-shadow:0 8px 22px rgba(47,128,237,.28)}
   .btn-primary svg{transition:transform .2s ease}
   .btn-primary:hover svg{transform:translateX(3px)}
   .btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line-strong)}
@@ -118,39 +122,71 @@
     .nav-cta .calllink{display:inline}
   }
 
-  /* ---- HERO ---- */
-  .hero{padding-top:clamp(40px,7vw,84px);padding-bottom:clamp(36px,6vw,60px)}
-  .hero-head{max-width:880px}
+  /* ---- HERO (scroll-scrub) ---- */
+  .hero{
+    position:relative;
+    height:280vh;                 /* tall scroll track — desktop */
+    background:var(--bg);
+  }
+  @media(max-width:767px){ .hero{height:220vh} }
+
+  .hero-stage{
+    position:sticky;top:0;
+    height:100vh;height:100dvh;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    padding-top:clamp(28px,5vw,56px);
+    padding-bottom:clamp(20px,3vw,40px);
+  }
+  /* gradient scrim — soft light-blue depth behind content; fades on scroll */
+  .hero-overlay{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:
+      radial-gradient(110% 75% at 14% 4%, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.55) 34%, rgba(240,244,255,0.0) 72%),
+      linear-gradient(180deg, rgba(255,255,255,0.0) 46%, rgba(225,232,253,0.45) 100%);
+    opacity:1;transition:opacity .12s linear;
+  }
+  .hero-stage .wrap{
+    position:relative;z-index:2;
+    display:flex;flex-direction:column;
+    height:100%;
+    min-height:0;
+  }
+  .hero-head{max-width:880px;will-change:opacity,transform}
   .hero h1{
-    font-size:clamp(40px,7.4vw,82px);
-    margin-top:22px;
+    font-size:clamp(36px,6.4vw,72px);
+    margin-top:18px;
   }
   .hero h1 .det{
-    position:relative;color:var(--accent);
+    position:relative;color:var(--accent-text);
   }
   .hero h1 .det::after{
     content:"";position:absolute;left:0;right:0;bottom:0.06em;height:3px;
-    background:var(--accent);border-radius:2px;
+    background:var(--accent-text);border-radius:2px;
     transform:scaleX(0);transform-origin:left;
     animation:drawline .9s cubic-bezier(.2,.7,.2,1) .5s forwards;
   }
   @keyframes drawline{to{transform:scaleX(1)}}
   .hero .sub{
-    margin-top:24px;max-width:560px;
-    font-size:clamp(16px,1.7vw,19px);color:var(--muted);line-height:1.55;
+    margin-top:22px;max-width:560px;
+    font-size:clamp(15px,1.6vw,18px);color:var(--muted);line-height:1.55;
   }
-  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
 
-  /* Device panel video */
+  /* Device panel video — sits in the sticky stage; video scrubs inside it */
   .device{
-    margin-top:clamp(40px,6vw,64px);
+    margin-top:clamp(22px,3.4vw,40px);
     position:relative;
+    flex:1 1 auto;min-height:0;
+    display:flex;align-items:stretch;
   }
   .device-frame{
     position:relative;
+    flex:1 1 auto;min-height:0;width:100%;
+    display:flex;flex-direction:column;
     border:1px solid var(--line);
     border-radius:var(--r);
-    background:linear-gradient(180deg,#fff,#f6f9fa);
+    background:linear-gradient(180deg,#fff,var(--tint));
     padding:10px;
     box-shadow:0 1px 0 rgba(255,255,255,.8) inset, 0 24px 60px -28px rgba(11,26,40,.30), 0 4px 14px -8px rgba(11,26,40,.18);
   }
@@ -165,28 +201,37 @@
     text-transform:uppercase;color:var(--muted);
     display:inline-flex;align-items:center;gap:7px;
   }
-  .device-tag .rec{width:6px;height:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 3px rgba(14,124,107,.16)}
+  .device-tag .rec{
+    width:6px;height:6px;border-radius:50%;background:var(--accent);
+    box-shadow:0 0 0 3px rgba(110,143,255,.18);
+    animation:livepulse 2.2s ease-in-out infinite;
+  }
+  @keyframes livepulse{0%,100%{box-shadow:0 0 0 3px rgba(110,143,255,.18)}50%{box-shadow:0 0 0 5px rgba(0,212,255,.16)}}
   .device-screen{
     position:relative;border-radius:11px;overflow:hidden;
     background:#0B1A28;
-    aspect-ratio:16/9;
+    flex:1 1 auto;min-height:0;width:100%;
   }
-  .device-screen video{width:100%;height:100%;object-fit:cover}
-  @media(max-width:767px){
-    .device-screen{aspect-ratio:4/5;max-height:560px;margin:0 auto}
+  .device-screen video{
+    position:absolute;inset:0;
+    width:100%;height:100%;object-fit:cover;
+  }
+  @media(prefers-reduced-motion:reduce){
+    .device-tag .rec{animation:none}
   }
 
-  /* trust line */
+  /* trust line — sits below the hero, in normal flow */
+  .trust{padding-top:clamp(22px,3vw,32px);padding-bottom:clamp(8px,1.6vw,16px)}
   .trustline{
-    margin-top:26px;display:flex;flex-wrap:wrap;align-items:center;gap:12px;
+    display:flex;flex-wrap:wrap;align-items:center;gap:12px;
     color:var(--muted);font-size:13.5px;
   }
   .trustline .avatar{
     width:34px;height:34px;border-radius:50%;flex:none;
-    background:linear-gradient(150deg,#dfeae9,#cfe0dc);
+    background:linear-gradient(150deg,var(--tint),var(--tint-deep));
     border:1px solid var(--line);
     display:flex;align-items:center;justify-content:center;
-    font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:13px;color:var(--accent-deep);
+    font-family:"Hanken Grotesk",sans-serif;font-weight:700;font-size:13px;color:var(--accent-text);
   }
   .trustline b{color:var(--ink);font-weight:600}
   .trustline .sep{width:1px;height:16px;background:var(--line-strong)}
@@ -223,7 +268,7 @@
   .stat .num .unit{font-size:0.5em;color:var(--muted);font-weight:600;margin-left:2px}
   .stat .lbl{margin-top:14px}
   .stat .desc{margin-top:7px;font-size:13.5px;color:var(--muted);line-height:1.45;max-width:230px}
-  .stat.accent .num{color:var(--accent)}
+  .stat.accent .num{color:var(--accent-text)}
 
   /* ---- TECH STRIP ---- */
   .tech{padding-top:clamp(56px,7vw,90px);padding-bottom:clamp(20px,4vw,40px)}
@@ -307,7 +352,7 @@
     padding:14px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:var(--ink);
   }
   .incl li .ck{
-    width:20px;height:20px;flex:none;margin-top:1px;color:var(--accent);
+    width:20px;height:20px;flex:none;margin-top:1px;color:var(--accent-text);
   }
   .incl li b{font-weight:600}
   .incl li span{color:var(--muted)}
@@ -322,8 +367,8 @@
     display:flex;flex-direction:column;gap:28px;align-items:flex-start;
   }
   @media(min-width:820px){.closing-inner{flex-direction:row;align-items:center;justify-content:space-between}}
-  .closing .eyebrow{color:#5fd6c2}
-  .closing .eyebrow .tick{background:#5fd6c2}
+  .closing .eyebrow{color:#9DB4FF}
+  .closing .eyebrow .tick{background:#9DB4FF}
   .closing h2{
     font-family:"Hanken Grotesk",sans-serif;font-weight:800;
     font-size:clamp(28px,4.4vw,46px);line-height:1.0;letter-spacing:-0.025em;
@@ -331,7 +376,7 @@
   }
   .closing p{margin-top:16px;color:rgba(255,255,255,.66);font-size:16px;max-width:42ch;line-height:1.55}
   .closing .btn-primary{background:#fff;color:var(--ink);box-shadow:none}
-  .closing .btn-primary:hover{background:#eaf4f1}
+  .closing .btn-primary:hover{background:var(--tint)}
   .closing .btn-ghost{color:#fff;border-color:rgba(255,255,255,.32)}
   .closing .btn-ghost:hover{border-color:#fff}
   .closing-actions{display:flex;flex-wrap:wrap;gap:12px;flex:none}
@@ -363,10 +408,10 @@
     <a class="brand" href="#top" aria-label="Emami Consulting home">
       <svg class="logomark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="1" y="1" width="30" height="30" rx="8" stroke="#0B1A28" stroke-opacity="0.16"/>
-        <path d="M9 22V10.5C9 9.67 9.67 9 10.5 9H16" stroke="#0E7C6B" stroke-width="2.1" stroke-linecap="round"/>
+        <path d="M9 22V10.5C9 9.67 9.67 9 10.5 9H16" stroke="#2F80ED" stroke-width="2.1" stroke-linecap="round"/>
         <path d="M9 16h6.5" stroke="#0B1A28" stroke-width="2.1" stroke-linecap="round"/>
-        <circle cx="22" cy="9.5" r="2.2" fill="#0E7C6B"/>
-        <circle cx="22" cy="16" r="2.2" stroke="#0B1A28" stroke-width="2"/>
+        <circle cx="22" cy="9.5" r="2.2" fill="#6E8FFF"/>
+        <circle cx="22" cy="16" r="2.2" stroke="#C9A24B" stroke-width="2"/>
         <circle cx="22" cy="22.5" r="2.2" stroke="#0B1A28" stroke-width="2"/>
         <path d="M9 22h13" stroke="#0B1A28" stroke-width="2.1" stroke-linecap="round" stroke-opacity="0.9"/>
       </svg>
@@ -389,43 +434,50 @@
 
 <main id="top">
 
-  <!-- ================= HERO ================= -->
-  <section class="hero">
+  <!-- ================= HERO (scroll-scrub) ================= -->
+  <section class="hero" data-hero>
+    <div class="hero-stage">
+      <div class="hero-overlay" data-hero-overlay aria-hidden="true"></div>
+      <div class="wrap">
+        <div class="hero-head" data-hero-content>
+          <span class="eyebrow"><span class="tick"></span>Vendor-neutral dental technology advisory</span>
+          <h1 class="display">
+            Buy <span class="det">clarity</span> before<br>you buy technology.
+          </h1>
+          <p class="sub">
+            Before a practice commits $10K–$150K+ to scanners, CBCT, milling or full-arch systems, we deliver an expert-reviewed implementation roadmap: exactly what to buy, in what order, and why. No vendor. No commission. No regret.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="/intake">
+              Build my roadmap
+              <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a class="btn btn-ghost" href="#contact">Book a call</a>
+          </div>
+        </div>
+
+        <!-- DEVICE PANEL VIDEO — scrubs frame-by-frame as you scroll -->
+        <div class="device">
+          <div class="device-frame">
+            <div class="device-bar">
+              <div class="device-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+              <span class="device-tag"><span class="rec"></span>Live · chairside technology in practice</span>
+            </div>
+            <div class="device-screen">
+              <video muted playsinline preload="auto" poster="/videos/hero-desktop-poster.jpg" tabindex="-1">
+                <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
+                <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+              </video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TRUST LINE ================= -->
+  <section class="trust">
     <div class="wrap">
-      <div class="hero-head reveal">
-        <span class="eyebrow"><span class="tick"></span>Vendor-neutral dental technology advisory</span>
-        <h1 class="display">
-          Buy <span class="det">clarity</span> before<br>you buy technology.
-        </h1>
-        <p class="sub">
-          Before a practice commits $10K–$150K+ to scanners, CBCT, milling or full-arch systems, we deliver an expert-reviewed implementation roadmap: exactly what to buy, in what order, and why. No vendor. No commission. No regret.
-        </p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/intake">
-            Build my roadmap
-            <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h9M8.5 4l4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a class="btn btn-ghost" href="#contact">Book a call</a>
-        </div>
-      </div>
-
-      <!-- DEVICE PANEL VIDEO -->
-      <div class="device reveal">
-        <div class="device-frame">
-          <div class="device-bar">
-            <div class="device-dots" aria-hidden="true"><span></span><span></span><span></span></div>
-            <span class="device-tag"><span class="rec"></span>Live · chairside technology in practice</span>
-          </div>
-          <div class="device-screen">
-            <video muted playsinline preload="auto" autoplay loop poster="/videos/hero-desktop-poster.jpg">
-              <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
-              <source src="/videos/hero-desktop.mp4" type="video/mp4" />
-            </video>
-          </div>
-        </div>
-      </div>
-
-      <!-- TRUST LINE -->
       <div class="trustline reveal">
         <span class="avatar" aria-hidden="true">JE</span>
         <span>Every roadmap reviewed &amp; signed off by <b>Dr. Justin Emami, DDS</b></span>
@@ -600,10 +652,10 @@
     <div class="brand">
       <svg class="logomark" viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="1" y="1" width="30" height="30" rx="8" stroke="#FFFFFF" stroke-opacity="0.2"/>
-        <path d="M9 22V10.5C9 9.67 9.67 9 10.5 9H16" stroke="#5fd6c2" stroke-width="2.1" stroke-linecap="round"/>
+        <path d="M9 22V10.5C9 9.67 9.67 9 10.5 9H16" stroke="#9DB4FF" stroke-width="2.1" stroke-linecap="round"/>
         <path d="M9 16h6.5" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-opacity="0.85"/>
-        <circle cx="22" cy="9.5" r="2.2" fill="#5fd6c2"/>
-        <circle cx="22" cy="16" r="2.2" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.85"/>
+        <circle cx="22" cy="9.5" r="2.2" fill="#9DB4FF"/>
+        <circle cx="22" cy="16" r="2.2" stroke="#C9A24B" stroke-width="2"/>
         <circle cx="22" cy="22.5" r="2.2" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.85"/>
         <path d="M9 22h13" stroke="#FFFFFF" stroke-width="2.1" stroke-linecap="round" stroke-opacity="0.85"/>
       </svg>
@@ -614,13 +666,6 @@
 </footer>
 
 <script>
-  // Autoplay safeguard
-  document.querySelectorAll('video').forEach(function(v){
-    v.muted = true;
-    var p = v.play();
-    if (p && p.catch) p.catch(function(){});
-  });
-
   // Reveal on scroll
   (function(){
     var els = document.querySelectorAll('.reveal');
@@ -632,6 +677,42 @@
     },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
     els.forEach(function(e){io.observe(e);});
   })();
+</script>
+
+<!-- Scroll-scrub hero video (Eterno-style: video seeks frame-by-frame as you scroll) -->
+<script>
+(function(){
+  var hero=document.querySelector('[data-hero]');
+  if(!hero) return;
+  var video=hero.querySelector('video');
+  var content=hero.querySelector('[data-hero-content]');
+  var overlay=hero.querySelector('[data-hero-overlay]');
+  var tagline=hero.querySelector('[data-hero-tagline]');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var target=0;
+  function dur(){ var d=video&&video.duration; return (d&&isFinite(d))?d:0; }
+  function clamp(v){return v<0?0:(v>1?1:v);}
+  function progress(){
+    var total=hero.offsetHeight-window.innerHeight;
+    return clamp(-hero.getBoundingClientRect().top/(total||1));
+  }
+  function update(){
+    var p=progress();
+    var D=dur(); if(D) target=p*(D-0.05);
+    if(content){ var cO=p<0.18?1:(p>0.4?0:1-(p-0.18)/0.22); content.style.opacity=cO; content.style.transform='translateY('+(p<0.18?0:-(clamp((p-0.18)/0.22))*60)+'px)'; }
+    if(overlay){ overlay.style.opacity = p<0.3?1:(p>0.62?0.18:1-(p-0.3)/0.32*0.82); }
+    if(tagline){ var t=clamp((p-0.42)/0.16), o=p>0.9?clamp(1-(p-0.9)/0.1):t; tagline.style.opacity=(p<0.42?0:o); }
+  }
+  function raf(){ if(!reduce && video && dur() && !video.seeking){ var d=target-video.currentTime; if(Math.abs(d)>0.001){ try{ video.currentTime = video.currentTime + d*0.25; }catch(e){} } } requestAnimationFrame(raf); }
+  if(video){
+    video.addEventListener('loadedmetadata',function(){ try{video.currentTime=0;}catch(e){} update(); });
+    if(video.readyState>=1){ try{video.currentTime=0;}catch(e){} update(); }
+    if(reduce){ video.setAttribute('autoplay',''); video.setAttribute('loop',''); video.muted=true; var pp=video.play(); if(pp&&pp.catch) pp.catch(function(){}); }
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  update(); requestAnimationFrame(raf);
+})();
 </script>
 </body>
 </html>

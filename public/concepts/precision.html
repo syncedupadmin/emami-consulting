@@ -13,10 +13,17 @@
     --paper:#F4F4F1;
     --ink:#0B0F12;
     --muted:#6A7178;
-    --cobalt:#1F44FF;
+    /* Dr. Emami brand blue family */
+    --signal:#2F80ED;      /* strong signal: CTA, index numerals, keylines */
+    --signal-light:#6E8FFF; /* lighter keylines / fills (periwinkle accent) */
+    --glow:#00D4FF;        /* electric cyan glow — sparingly */
+    --tint:#F0F4FF;        /* light-blue surface tint */
+    --tint-deep:#E1E8FD;
+    --gold:#C9A24B;        /* thin gold hairline accent */
+    --cobalt:#2F80ED;      /* legacy alias → strong signal */
     --hair:#0B0F1218;
     --hair-strong:#0B0F1233;
-    --black:#0B0F12;
+    --black:#0E0E0E;
     --display:"Archivo", system-ui, sans-serif;
     --body:"Inter", system-ui, sans-serif;
     --mono:"IBM Plex Mono", ui-monospace, monospace;
@@ -106,18 +113,30 @@
   .btn .arr{ transition:transform .15s ease; }
   .btn:hover .arr{ transform:translateX(3px); }
 
-  /* ---------- HERO ---------- */
-  .hero{ position:relative; padding-top:clamp(28px,5vw,56px); padding-bottom:clamp(36px,5vw,64px); border-bottom:1px solid var(--ink); }
+  /* ---------- HERO (scroll-scrub) ---------- */
+  .hero{
+    position:relative;
+    height:220vh;                 /* mobile: tall scrub track */
+    border-bottom:1px solid var(--ink);
+  }
+  .hero__stage{
+    position:sticky; top:0;
+    height:100vh; height:100dvh;
+    overflow:hidden;
+    display:flex; flex-direction:column; justify-content:center;
+    padding-top:clamp(28px,5vw,56px); padding-bottom:clamp(36px,5vw,64px);
+    background:var(--paper);
+  }
   .hero__grid{
     display:grid;
     grid-template-columns:1fr;
     gap:clamp(28px,4vw,40px);
     align-items:end;
   }
-  .hero__head{ position:relative; }
+  .hero__head{ position:relative; will-change:opacity, transform; }
 
   .hero__kicker{ display:flex; align-items:center; gap:14px; margin-bottom:clamp(20px,4vw,34px); }
-  .hero__kicker .line{ height:1px; background:var(--cobalt); flex:1; max-width:120px; }
+  .hero__kicker .line{ height:1px; background:linear-gradient(90deg, var(--signal), var(--signal-light)); flex:1; max-width:120px; }
 
   .display{
     font-family:var(--display);
@@ -154,7 +173,7 @@
   .hero__trust .t{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.02em; }
   .hero__trust .t b{ color:var(--ink); font-weight:600; }
 
-  /* video column */
+  /* video column (scrub) */
   .hero__media{ position:relative; }
   .hero__mediaframe{
     position:relative;
@@ -162,29 +181,38 @@
     background:var(--black);
     overflow:hidden;
     border:1px solid var(--ink);
+    /* thin gold hairline accent inside the frame */
+    box-shadow:inset 0 0 0 1px rgba(201,162,75,0.0), 0 0 0 0 transparent;
   }
-  .hero__mediaframe video{ width:100%; height:100%; object-fit:cover; }
-  .hero__mediaframe::after{
-    content:""; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(11,15,18,0) 55%, rgba(11,15,18,0.55) 100%);
+  .hero__mediaframe::before{
+    content:""; position:absolute; inset:5px; z-index:3;
+    border:1px solid rgba(201,162,75,0.45); /* gold hairline detail */
     pointer-events:none;
   }
+  .hero__mediaframe video{ width:100%; height:100%; object-fit:cover; }
+  /* scroll-scrub gradient overlay (keeps any overlaid text readable) */
+  .hero__overlay{
+    content:""; position:absolute; inset:0; z-index:1;
+    background:linear-gradient(180deg, rgba(14,14,14,0) 48%, rgba(14,14,14,0.62) 100%);
+    pointer-events:none; will-change:opacity;
+  }
   .media__tag{
-    position:absolute; left:0; bottom:0; z-index:2;
+    position:absolute; left:0; bottom:0; z-index:4;
     display:flex; align-items:center; gap:10px;
     padding:12px 14px;
-    background:var(--cobalt); color:#fff;
+    background:var(--signal); color:#fff;
     font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
   }
   .media__tag .pulse{ width:7px; height:7px; border-radius:50%; background:#fff; animation:pulse 1.8s infinite ease-in-out; }
   @keyframes pulse{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.35; transform:scale(.7);} }
 
   .media__idx{
-    position:absolute; top:-2px; right:0; z-index:2;
+    position:absolute; top:-2px; right:0; z-index:4;
     font-family:var(--display); font-weight:800;
     font-size:clamp(60px,9vw,118px);
     line-height:0.7; color:#fff; mix-blend-mode:difference;
     letter-spacing:-0.04em; padding:8px 12px;
+    will-change:transform, opacity;
   }
 
   .hero__meta{
@@ -257,7 +285,7 @@
   }
   .tcell:hover{ background:var(--ink); color:var(--paper); }
   .tcell:hover .tcell__n{ color:#ffffff44; }
-  .tcell:hover svg{ stroke:var(--cobalt); }
+  .tcell:hover svg{ stroke:var(--signal-light); }
   .tcell svg{ width:34px; height:34px; stroke:var(--ink); stroke-width:1.4; fill:none; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s ease; }
   .tcell__n{ position:absolute; top:14px; right:16px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.1em; transition:color .2s ease; }
   .tcell__t{ font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-0.01em; margin-top:auto; line-height:1.05; }
@@ -339,15 +367,18 @@
     .hero__meta div:nth-child(1){ padding-left:0; }
     .hero__meta div + div{ padding-left:14px; }
   }
+  @media (min-width:768px){
+    .hero{ height:280vh; }   /* desktop: taller scrub track */
+  }
   @media (min-width:1000px){
     .hero__grid{ grid-template-columns:1.45fr 0.9fr; }
-    .hero__mediaframe{ aspect-ratio:3 / 4.2; }
+    .hero__mediaframe{ aspect-ratio:3 / 4.2; max-height:74vh; max-height:74dvh; }
     .offer__grid{ grid-template-columns:1.25fr 0.85fr; align-items:start; }
     .close__grid{ grid-template-columns:1.6fr 0.7fr; }
     .tech__grid{ grid-template-columns:repeat(3,1fr); }
   }
   @media (min-width:1280px){
-    .hero__mediaframe{ aspect-ratio:3 / 4.4; }
+    .hero__mediaframe{ aspect-ratio:3 / 4.4; max-height:76vh; max-height:76dvh; }
   }
   @media (prefers-reduced-motion:reduce){
     *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
@@ -362,8 +393,8 @@
     <a class="brand" href="#top" aria-label="Emami Consulting home">
       <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
         <rect x="1" y="1" width="30" height="30" fill="none" stroke="#0B0F12" stroke-width="1.4"/>
-        <path d="M7 23 L7 9 L16 16 L25 9 L25 23" fill="none" stroke="#1F44FF" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
-        <circle cx="16" cy="16" r="1.7" fill="#1F44FF"/>
+        <path d="M7 23 L7 9 L16 16 L25 9 L25 23" fill="none" stroke="#2F80ED" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="1.7" fill="#2F80ED"/>
       </svg>
       <span class="brand__name">Emami <b>Consulting</b></span>
     </a>
@@ -380,68 +411,71 @@
 
 <main id="top">
 
-  <!-- ============ HERO ============ -->
-  <section class="hero">
-    <div class="wrap">
-      <div class="hero__grid">
+  <!-- ============ HERO (scroll-scrub) ============ -->
+  <section class="hero" data-hero>
+    <div class="hero__stage">
+      <div class="wrap">
+        <div class="hero__grid">
 
-        <!-- left: headline -->
-        <div class="hero__head">
-          <span class="hero__ghost" aria-hidden="true">01</span>
+          <!-- left: headline (fades + floats up on scroll) -->
+          <div class="hero__head" data-hero-content>
+            <span class="hero__ghost" aria-hidden="true">01</span>
 
-          <div class="hero__kicker">
-            <span class="idx label--cobalt mono" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cobalt);font-family:var(--mono);">[ 01 / Advisory ]</span>
-            <span class="line" aria-hidden="true"></span>
-            <span class="label">Vendor-neutral · Dental technology</span>
+            <div class="hero__kicker">
+              <span class="idx label--cobalt mono" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--signal);font-family:var(--mono);">[ 01 / Advisory ]</span>
+              <span class="line" aria-hidden="true"></span>
+              <span class="label">Vendor-neutral · Dental technology</span>
+            </div>
+
+            <h1 class="display hero__title">
+              Buy <span class="accent">clarity</span>
+              <span class="l2">before you buy</span>
+              <span class="l2 thin">technology.</span>
+            </h1>
+
+            <p class="hero__sub">
+              We don't sell scanners, CBCT or mills. We produce an <strong>expert-reviewed implementation roadmap</strong> that tells your practice exactly what to buy, in what order, and why — before you commit $10K to $150K+.
+            </p>
+
+            <div class="hero__cta">
+              <a class="btn btn--primary" href="/intake">Build my roadmap <span class="arr">→</span></a>
+              <a class="btn btn--ghost" href="#offer">Book a call</a>
+            </div>
+
+            <div class="hero__trust">
+              <span class="dot" aria-hidden="true"></span>
+              <span class="t">Every roadmap reviewed &amp; signed off by <b>Dr. Justin Emami, DDS</b> — Fellow, Misch Implant Institute · Master, ICOI</span>
+            </div>
           </div>
 
-          <h1 class="display hero__title">
-            Buy <span class="accent">clarity</span>
-            <span class="l2">before you buy</span>
-            <span class="l2 thin">technology.</span>
-          </h1>
-
-          <p class="hero__sub">
-            We don't sell scanners, CBCT or mills. We produce an <strong>expert-reviewed implementation roadmap</strong> that tells your practice exactly what to buy, in what order, and why — before you commit $10K to $150K+.
-          </p>
-
-          <div class="hero__cta">
-            <a class="btn btn--primary" href="/intake">Build my roadmap <span class="arr">→</span></a>
-            <a class="btn btn--ghost" href="#offer">Book a call</a>
+          <!-- right: video column (scrubs frame-by-frame on scroll) -->
+          <div class="hero__media">
+            <div class="hero__mediaframe">
+              <span class="media__idx" aria-hidden="true">01</span>
+              <video muted playsinline preload="auto" poster="/videos/hero-desktop-poster.jpg" tabindex="-1">
+                <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
+                <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+              </video>
+              <span class="hero__overlay" data-hero-overlay aria-hidden="true"></span>
+              <span class="media__tag"><span class="pulse" aria-hidden="true"></span> Live clinical-tech</span>
+            </div>
+            <div class="hero__meta">
+              <div>
+                <div class="k">Deliverable</div>
+                <div class="v">Implementation roadmap</div>
+              </div>
+              <div>
+                <div class="k">Turnaround</div>
+                <div class="v">5 business days</div>
+              </div>
+              <div>
+                <div class="k">Model</div>
+                <div class="v">No retainer</div>
+              </div>
+            </div>
           </div>
 
-          <div class="hero__trust">
-            <span class="dot" aria-hidden="true"></span>
-            <span class="t">Every roadmap reviewed &amp; signed off by <b>Dr. Justin Emami, DDS</b> — Fellow, Misch Implant Institute · Master, ICOI</span>
-          </div>
         </div>
-
-        <!-- right: video column -->
-        <div class="hero__media">
-          <div class="hero__mediaframe">
-            <span class="media__idx" aria-hidden="true">01</span>
-            <video autoplay loop muted playsinline preload="auto" poster="/videos/hero-desktop-poster.jpg">
-              <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
-              <source src="/videos/hero-desktop.mp4" type="video/mp4" />
-            </video>
-            <span class="media__tag"><span class="pulse" aria-hidden="true"></span> Live clinical-tech</span>
-          </div>
-          <div class="hero__meta">
-            <div>
-              <div class="k">Deliverable</div>
-              <div class="v">Implementation roadmap</div>
-            </div>
-            <div>
-              <div class="k">Turnaround</div>
-              <div class="v">5 business days</div>
-            </div>
-            <div>
-              <div class="k">Model</div>
-              <div class="v">No retainer</div>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
   </section>
@@ -687,8 +721,8 @@
       <div class="foot__brand">
         <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
           <rect x="1" y="1" width="30" height="30" fill="none" stroke="#F4F4F1" stroke-width="1.4"/>
-          <path d="M7 23 L7 9 L16 16 L25 9 L25 23" fill="none" stroke="#1F44FF" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
-          <circle cx="16" cy="16" r="1.7" fill="#1F44FF"/>
+          <path d="M7 23 L7 9 L16 16 L25 9 L25 23" fill="none" stroke="#6E8FFF" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="1.7" fill="#6E8FFF"/>
         </svg>
         <span class="brand__name">Emami <b>Consulting</b></span>
       </div>
@@ -701,11 +735,38 @@
 </footer>
 
 <script>
-  // Ensure autoplay on browsers that defer it; fail silently.
-  document.querySelectorAll('video').forEach(function (v) {
-    var p = v.play();
-    if (p && p.catch) { p.catch(function () {}); }
-  });
+(function(){
+  var hero=document.querySelector('[data-hero]');
+  if(!hero) return;
+  var video=hero.querySelector('video');
+  var content=hero.querySelector('[data-hero-content]');
+  var overlay=hero.querySelector('[data-hero-overlay]');
+  var tagline=hero.querySelector('[data-hero-tagline]');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  var target=0;
+  function dur(){ var d=video&&video.duration; return (d&&isFinite(d))?d:0; }
+  function clamp(v){return v<0?0:(v>1?1:v);}
+  function progress(){
+    var total=hero.offsetHeight-window.innerHeight;
+    return clamp(-hero.getBoundingClientRect().top/(total||1));
+  }
+  function update(){
+    var p=progress();
+    var D=dur(); if(D) target=p*(D-0.05);
+    if(content){ var cO=p<0.18?1:(p>0.4?0:1-(p-0.18)/0.22); content.style.opacity=cO; content.style.transform='translateY('+(p<0.18?0:-(clamp((p-0.18)/0.22))*60)+'px)'; }
+    if(overlay){ overlay.style.opacity = p<0.3?1:(p>0.62?0.18:1-(p-0.3)/0.32*0.82); }
+    if(tagline){ var t=clamp((p-0.42)/0.16), o=p>0.9?clamp(1-(p-0.9)/0.1):t; tagline.style.opacity=(p<0.42?0:o); }
+  }
+  function raf(){ if(!reduce && video && dur() && !video.seeking){ var d=target-video.currentTime; if(Math.abs(d)>0.001){ try{ video.currentTime = video.currentTime + d*0.25; }catch(e){} } } requestAnimationFrame(raf); }
+  if(video){
+    video.addEventListener('loadedmetadata',function(){ try{video.currentTime=0;}catch(e){} update(); });
+    if(video.readyState>=1){ try{video.currentTime=0;}catch(e){} update(); }
+    if(reduce){ video.setAttribute('autoplay',''); video.setAttribute('loop',''); var pp=video.play(); if(pp&&pp.catch){pp.catch(function(){});} }
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  update(); requestAnimationFrame(raf);
+})();
 </script>
 </body>
 </html>
