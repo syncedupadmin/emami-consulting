@@ -14,10 +14,10 @@
     --surface:#11161F;
     --text:#EAF1F6;
     --muted:#8E9AAE;
-    --accent:#6E8FFF;        /* Dr. Emami brand periwinkle/cornflower blue */
-    --accent-bright:#2F80ED; /* brighter blue, depth */
-    --accent-glow:#00D4FF;   /* electric cyan, scan-line glow only */
-    --gold:#C9A24B;          /* single thin gold hairline nod to his gold logo */
+    --accent:#0A84E6;        /* Dr. Emami brand periwinkle/cornflower blue */
+    --accent-bright:#0A84E6; /* brighter blue, depth */
+    --accent-glow:#3BC6FF;   /* electric cyan, scan-line glow only */
+    --gold:#C7CBD3;          /* single thin gold hairline nod to his gold logo */
     --hair:rgba(234,241,246,0.12);
     --hair-strong:rgba(234,241,246,0.20);
     --display:"Space Grotesk",system-ui,sans-serif;
@@ -86,7 +86,7 @@
     transition:transform .25s ease,box-shadow .25s ease;
     white-space:nowrap;
   }
-  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(110,143,255,0.40);}
+  .nav-cta:hover{transform:translateY(-1px);box-shadow:0 0 24px rgba(10,132,230,0.40);}
   .nav-cta svg{flex:0 0 auto;}
 
   /* ---------- HERO (Eterno scroll-scrub) ---------- */
@@ -139,7 +139,7 @@
     text-transform:uppercase;
     color:var(--text);
     text-indent:0.42em;          /* balance the trailing letter-spacing */
-    text-shadow:0 0 32px rgba(110,143,255,0.55),0 0 64px rgba(47,128,237,0.30);
+    text-shadow:0 0 32px rgba(10,132,230,0.55),0 0 64px rgba(10,132,230,0.30);
   }
 
   .hero-kicker{
@@ -178,9 +178,9 @@
   }
   .btn-primary{
     background:var(--accent);color:var(--bg);
-    box-shadow:0 0 0 rgba(110,143,255,0);
+    box-shadow:0 0 0 rgba(10,132,230,0);
   }
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(110,143,255,0.34);}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(10,132,230,0.34);}
   .btn-ghost{
     color:var(--text);border:1px solid var(--hair-strong);background:transparent;
   }
@@ -204,8 +204,8 @@
   /* signature scan line living in the hero */
   .scanline{
     position:absolute;left:0;right:0;z-index:1;height:1px;
-    background:linear-gradient(90deg, transparent, rgba(0,212,255,0.0) 8%, var(--accent-glow) 50%, rgba(0,212,255,0.0) 92%, transparent);
-    box-shadow:0 0 14px 1px rgba(47,128,237,0.55);
+    background:linear-gradient(90deg, transparent, rgba(59,198,255,0.0) 8%, var(--accent-glow) 50%, rgba(59,198,255,0.0) 92%, transparent);
+    box-shadow:0 0 14px 1px rgba(10,132,230,0.55);
     opacity:0.0;
     animation:scan 7.5s cubic-bezier(.6,0,.2,1) infinite;
     pointer-events:none;
@@ -276,13 +276,13 @@
     padding:26px 0;border-bottom:1px solid var(--hair);
     transition:background .3s ease,padding-left .3s ease;
   }
-  .cap:hover{background:linear-gradient(90deg, rgba(110,143,255,0.05), transparent 60%);padding-left:8px;}
+  .cap:hover{background:linear-gradient(90deg, rgba(10,132,230,0.05), transparent 60%);padding-left:8px;}
   .cap-ico{
     flex:0 0 auto;width:46px;height:46px;border:1px solid var(--hair-strong);
     border-radius:3px;display:grid;place-items:center;color:var(--accent);
     transition:border-color .3s ease;
   }
-  .cap:hover .cap-ico{border-color:rgba(110,143,255,0.5);}
+  .cap:hover .cap-ico{border-color:rgba(10,132,230,0.5);}
   .cap-body h3{
     font-family:var(--display);font-weight:500;font-size:1.1rem;
     letter-spacing:-0.01em;margin-bottom:4px;
@@ -353,7 +353,7 @@
     content:"";position:absolute;left:50%;top:0;transform:translateX(-50%);
     width:min(620px,80%);height:1px;
     background:linear-gradient(90deg,transparent,var(--accent),transparent);
-    box-shadow:0 0 18px 1px rgba(47,128,237,0.42);
+    box-shadow:0 0 18px 1px rgba(10,132,230,0.42);
   }
   .close h2{
     font-family:var(--display);font-weight:700;
@@ -422,10 +422,10 @@
       <span class="brand-mark" aria-hidden="true">
         <!-- roadmap mark: nodes connected by a path -->
         <svg width="30" height="30" viewBox="0 0 30 30" fill="none">
-          <path d="M6 23 C 11 23, 11 15, 15 15 C 19 15, 19 7, 24 7" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M6 23 C 11 23, 11 15, 15 15 C 19 15, 19 7, 24 7" stroke="#0A84E6" stroke-width="1.5" stroke-linecap="round"/>
           <circle cx="6" cy="23" r="2.4" fill="#0A0D11" stroke="#EAF1F6" stroke-width="1.4"/>
           <circle cx="15" cy="15" r="2.4" fill="#0A0D11" stroke="#EAF1F6" stroke-width="1.4"/>
-          <circle cx="24" cy="7" r="2.6" fill="#6E8FFF"/>
+          <circle cx="24" cy="7" r="2.6" fill="#0A84E6"/>
         </svg>
       </span>
       <span class="brand-name">Emami Consulting
@@ -534,7 +534,7 @@
     <div class="cap-grid">
       <article class="cap reveal">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 9V6a2 2 0 0 1 2-2h3M20 15v3a2 2 0 0 1-2 2h-3M4 15v3a2 2 0 0 0 2 2h3M20 9V6a2 2 0 0 0-2-2h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 12h10" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 9V6a2 2 0 0 1 2-2h3M20 15v3a2 2 0 0 1-2 2h-3M4 15v3a2 2 0 0 0 2 2h3M20 9V6a2 2 0 0 0-2-2h-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M7 12h10" stroke="#0A84E6" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Intraoral scanners</h3>
@@ -545,7 +545,7 @@
 
       <article class="cap reveal d1">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.4" stroke="#6E8FFF" stroke-width="1.5"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3.4" stroke="#0A84E6" stroke-width="1.5"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>CBCT 3D imaging</h3>
@@ -556,7 +556,7 @@
 
       <article class="cap reveal d2">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h14M7 4v5l-2 9a2 2 0 0 0 2 2.4h10A2 2 0 0 0 19 18l-2-9V4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 12.5h5" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 4h14M7 4v5l-2 9a2 2 0 0 0 2 2.4h10A2 2 0 0 0 19 18l-2-9V4" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 12.5h5" stroke="#0A84E6" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Chairside milling / CEREC</h3>
@@ -567,7 +567,7 @@
 
       <article class="cap reveal">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8 12 4l8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 8v8l8 4 8-4V8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 12v8" stroke="#6E8FFF" stroke-width="1.5"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 8 12 4l8 4-8 4-8-4Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M4 8v8l8 4 8-4V8" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M12 12v8" stroke="#0A84E6" stroke-width="1.5"/></svg>
         </span>
         <div class="cap-body">
           <h3>3D printing</h3>
@@ -578,7 +578,7 @@
 
       <article class="cap reveal d1">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v6m0 0c-2 0-4 1.6-4 4.4C8 17 9.8 21 12 21s4-4 4-7.6C16 10.6 14 9 12 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 6.5 12 9l2.5-2.5" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3v6m0 0c-2 0-4 1.6-4 4.4C8 17 9.8 21 12 21s4-4 4-7.6C16 10.6 14 9 12 9Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 6.5 12 9l2.5-2.5" stroke="#0A84E6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Guided implant surgery</h3>
@@ -589,7 +589,7 @@
 
       <article class="cap reveal d2">
         <span class="cap-ico" aria-hidden="true">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12c3-4 6-4 9 0s6 4 9 0" stroke="#6E8FFF" stroke-width="1.5" stroke-linecap="round"/><path d="M3 17c3-3 6-3 9 0s6 3 9 0M3 7c3-3 6-3 9 0s6 3 9 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 12c3-4 6-4 9 0s6 4 9 0" stroke="#0A84E6" stroke-width="1.5" stroke-linecap="round"/><path d="M3 17c3-3 6-3 9 0s6 3 9 0M3 7c3-3 6-3 9 0s6 3 9 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         </span>
         <div class="cap-body">
           <h3>Sedation workflows</h3>
