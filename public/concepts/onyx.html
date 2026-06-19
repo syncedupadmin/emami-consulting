@@ -706,6 +706,8 @@
     var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
     var target=0;
     function dur(){ var d=video&&video.duration; return (d&&isFinite(d))?d:0; }
+  var __primed=false;
+  function prime(){ if(__primed||!video) return; var D=dur(); if(!D) return; __primed=true; var pr=video.play(); if(pr&&pr.then){ pr.then(function(){ video.pause(); }).catch(function(){ try{video.pause();}catch(e){} }); } }
     function clamp(v){return v<0?0:(v>1?1:v);}
     function progress(){
       var total=hero.offsetHeight-window.innerHeight;
@@ -713,15 +715,15 @@
     }
     function update(){
       var p=progress();
-      var D=dur(); if(D) target=p*(D-0.05);
+      var D=dur(); if(D){ if(!video.paused){ try{video.pause();}catch(e){} } target=p*(D-0.05); }
       if(content){ var cO=p<0.18?1:(p>0.4?0:1-(p-0.18)/0.22); content.style.opacity=cO; content.style.transform='translateY('+(p<0.18?0:-(clamp((p-0.18)/0.22))*60)+'px)'; }
       if(overlay){ overlay.style.opacity = p<0.3?1:(p>0.62?0.18:1-(p-0.3)/0.32*0.82); }
       if(tagline){ var t=clamp((p-0.42)/0.16), o=p>0.9?clamp(1-(p-0.9)/0.1):t; tagline.style.opacity=(p<0.42?0:o); }
     }
-    function raf(){ if(!reduce && video && dur() && !video.seeking){ var d=target-video.currentTime; if(Math.abs(d)>0.001){ try{ video.currentTime = video.currentTime + d*0.25; }catch(e){} } } requestAnimationFrame(raf); }
+    function raf(){ if(!reduce && video && dur() && !video.seeking){ if(Math.abs(video.currentTime-target)>0.001){ try{ video.currentTime=target; }catch(e){} } } requestAnimationFrame(raf); }
     if(video){
-      video.addEventListener('loadedmetadata',function(){ try{video.currentTime=0;}catch(e){} update(); });
-      if(video.readyState>=1){ try{video.currentTime=0;}catch(e){} update(); }
+      video.addEventListener('loadedmetadata',function(){ prime(); update(); });
+      if(video.readyState>=1){ prime(); update(); }
       if(reduce){ video.setAttribute('autoplay',''); video.setAttribute('loop',''); var p=video.play(); if(p&&p.catch){p.catch(function(){});} }
     }
     window.addEventListener('scroll',update,{passive:true});
