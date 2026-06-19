@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
 const TIMELINE = [
@@ -12,19 +12,22 @@ const TIMELINE = [
 ]
 
 export default function BuildPlan() {
+  const reduce = useReducedMotion()
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-10%' })
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.75', 'end 0.6'] })
   const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const lineScaleY = reduce ? 1 : lineProgress
 
   return (
-    <section ref={ref} className="sec-pad" style={{ background: 'var(--bone)' }}>
+    <section ref={ref} className="sec-pad" style={{ background: 'var(--bone)', position: 'relative', overflow: 'hidden' }}>
+      <span className="sec-index" aria-hidden="true">08</span>
       <div className="wrap">
         <motion.div
           className="sec-head"
-          initial={{ opacity: 0, y: 28 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ type: 'spring', damping: 25, stiffness: 110 }}
         >
           <span className="eyebrow"><span className="num">08</span>&nbsp; Blueprint Sprint Timeline</span>
           <h2 className="sec-title">Five business days from intake to roadmap.</h2>
@@ -33,7 +36,7 @@ export default function BuildPlan() {
 
         <div className="bp-wrap">
           <div className="bp-line-outer" aria-hidden="true">
-            <motion.div className="bp-line-fill" style={{ scaleY: lineProgress, transformOrigin: 'top' }} />
+            <motion.div className="bp-line-fill" style={{ scaleY: lineScaleY, transformOrigin: 'top' }} />
           </div>
 
           <div className="bp-steps">
@@ -41,9 +44,9 @@ export default function BuildPlan() {
               <motion.div
                 key={t.n}
                 className="bp-step"
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.09 }}
+                initial={reduce ? false : { opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ type: 'spring', damping: 25, stiffness: 110, delay: i * 0.06 }}
               >
                 <div className="bp-node">
                   <span className="bp-n">{t.n}</span>
@@ -75,10 +78,14 @@ export default function BuildPlan() {
         .bp-step:hover .bp-n { color: #fff; }
         .bp-meta { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
         .bp-phase { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--teal); }
-        .bp-days { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--slate); }
+        .bp-days { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--slate-strong); }
         .bp-title { font-weight: 600; font-size: 16px; margin-bottom: 6px; }
-        .bp-detail { font-size: 13.5px; color: var(--slate); line-height: 1.6; max-width: 620px; }
-        @media (max-width: 700px) { .bp-line-outer { display: none; } .bp-wrap { gap: 0; } .bp-step { padding: 22px 0; } }
+        .bp-detail { font-size: 14px; color: var(--slate-strong); line-height: 1.6; max-width: 620px; }
+        @media (max-width: 700px) {
+          .bp-line-outer { display: none; }
+          .bp-wrap { gap: 0; flex-direction: column; }
+          .bp-step { padding: 22px 0; gap: 16px; }
+        }
       `}</style>
     </section>
   )

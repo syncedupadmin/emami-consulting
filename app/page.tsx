@@ -20,7 +20,7 @@ export const metadata = {
 
 export default function Home() {
   return (
-    <main id="top">
+    <main id="main">
       <NavBar />
       <Hero />
       <StatBand />

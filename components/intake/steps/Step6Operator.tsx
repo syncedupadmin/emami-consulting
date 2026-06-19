@@ -41,7 +41,7 @@ export default function Step6Operator({ data, update, onNext, onBack }: Props) {
 
       <div className="step-nav">
         <button className="back-btn" onClick={onBack}>← Back</button>
-        <button className="btn btn-primary" onClick={onNext} disabled={!data.operator}>Continue →</button>
+        <button className="btn btn-primary step-btn" onClick={onNext} disabled={!data.operator}>Continue →</button>
       </div>
 
       <style jsx>{`
@@ -49,12 +49,17 @@ export default function Step6Operator({ data, update, onNext, onBack }: Props) {
         .step-q { display: flex; flex-direction: column; gap: 10px; }
         .step-num { font-family: var(--mono); font-size: 11px; color: var(--brass-deep); letter-spacing: 0.2em; }
         .step-title { font-family: var(--display); font-weight: 380; font-size: clamp(24px, 3vw, 32px); line-height: 1.15; letter-spacing: -0.01em; }
-        .step-hint { font-size: 14.5px; color: var(--slate); line-height: 1.55; }
+        .step-hint { font-size: 14.5px; color: var(--slate-strong); line-height: 1.55; }
         .opts-col { display: grid; gap: 10px; }
         .step-nav { display: flex; align-items: center; gap: 16px; }
+        .step-btn { min-height: 48px; }
         button:disabled { opacity: 0.45; cursor: not-allowed; }
-        .back-btn { background: none; border: none; cursor: pointer; font-size: 13.5px; color: var(--slate); font-family: var(--ui); transition: color 0.2s; }
+        .back-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 8px; background: none; border: none; cursor: pointer; font-size: 14px; color: var(--slate-strong); font-family: var(--ui); transition: color 0.2s; }
         .back-btn:hover { color: var(--ink); }
+        @media (max-width: 520px) {
+          .step-nav { flex-direction: column-reverse; align-items: stretch; gap: 12px; }
+          .step-btn, .back-btn { width: 100%; }
+        }
       `}</style>
     </div>
   )

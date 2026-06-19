@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 
 interface OptionCardProps {
   label: string
@@ -10,26 +10,30 @@ interface OptionCardProps {
 }
 
 export default function OptionCard({ label, description, selected, onSelect }: OptionCardProps) {
+  const reduce = useReducedMotion()
   return (
     <motion.button
       className={`opt${selected ? ' opt-sel' : ''}`}
       onClick={onSelect}
-      whileTap={{ scale: 0.98 }}
+      whileTap={reduce ? undefined : { scale: 0.98 }}
       aria-pressed={selected}
     >
       <motion.div
         className="opt-highlight"
         initial={false}
         animate={{ opacity: selected ? 1 : 0 }}
-        transition={{ duration: 0.2 }}
+        transition={reduce ? { duration: 0 } : { duration: 0.2 }}
       />
       <div className="opt-check">
         <motion.span
+          className="opt-check-mark"
           initial={false}
           animate={{ scale: selected ? 1 : 0, opacity: selected ? 1 : 0 }}
-          transition={{ type: 'spring', damping: 22, stiffness: 200 }}
+          transition={reduce ? { duration: 0 } : { type: 'spring', damping: 22, stiffness: 200 }}
         >
-          ✓
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M20 6 9 17l-5-5" />
+          </svg>
         </motion.span>
       </div>
       <div className="opt-text">
@@ -53,6 +57,8 @@ export default function OptionCard({ label, description, selected, onSelect }: O
           overflow: hidden;
           transition: border-color 0.22s, background 0.22s;
           width: 100%;
+          min-height: 44px;
+          box-sizing: border-box;
         }
         .opt:hover { border-color: var(--brass); background: #fff; }
         .opt-sel { border-color: var(--brass) !important; background: #fff !important; }
@@ -73,8 +79,9 @@ export default function OptionCard({ label, description, selected, onSelect }: O
           color: var(--ink);
         }
         .opt-sel .opt-check { background: var(--brass); border-color: var(--brass); color: #fff; }
+        .opt-check-mark { display: grid; place-items: center; line-height: 0; }
         .opt-label { font-weight: 600; font-size: 14.5px; color: var(--ink); display: block; }
-        .opt-desc { font-size: 12.5px; color: var(--slate); margin-top: 3px; display: block; line-height: 1.5; }
+        .opt-desc { font-size: 12.5px; color: var(--slate-strong); margin-top: 3px; display: block; line-height: 1.5; }
       `}</style>
     </motion.button>
   )

@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# audit screenshots + original (pre-optimization) video backups
+/audit/
+/public/videos/_original/

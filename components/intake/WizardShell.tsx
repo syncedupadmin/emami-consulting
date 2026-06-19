@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import ProgressBar from './ProgressBar'
 import Step1Goal from './steps/Step1Goal'
 import Step2Technology from './steps/Step2Technology'
@@ -48,6 +48,7 @@ export default function WizardShell() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
   const liveRef = useRef<HTMLDivElement>(null)
+  const reduce = useReducedMotion()
 
   const update = (patch: Partial<IntakeData>) => setData((d) => ({ ...d, ...patch }))
 
@@ -80,9 +81,17 @@ export default function WizardShell() {
   }
 
   const variants = {
-    enter: (d: number) => ({ opacity: 0, x: d * 32 }),
-    center: { opacity: 1, x: 0 },
-    exit: (d: number) => ({ opacity: 0, x: d * -22 }),
+    enter: (d: number) => ({ opacity: 0, x: reduce ? 0 : d * 32 }),
+    center: {
+      opacity: 1,
+      x: 0,
+      transition: { duration: reduce ? 0 : 0.27, ease: [0.22, 0.61, 0.36, 1] as const },
+    },
+    exit: (d: number) => ({
+      opacity: 0,
+      x: reduce ? 0 : d * -22,
+      transition: { duration: reduce ? 0 : 0.14, ease: [0.4, 0, 1, 1] as const },
+    }),
   }
 
   const stepProps = { data, update, onNext: next, onBack: back }
@@ -114,15 +123,14 @@ export default function WizardShell() {
         />
 
         <div className="ws-body">
-          <AnimatePresence mode="wait" custom={direction}>
+          <AnimatePresence mode="popLayout" custom={direction} initial={false}>
             <motion.div
               key={step}
               custom={direction}
               variants={variants}
-              initial="enter"
+              initial={reduce ? false : 'enter'}
               animate="center"
               exit="exit"
-              transition={{ duration: 0.27, ease: [0.22, 0.61, 0.36, 1] }}
               className="ws-step"
             >
               {step === 1 && <Step1Goal {...stepProps} />}
@@ -150,14 +158,17 @@ export default function WizardShell() {
       </div>
 
       <style jsx>{`
-        .ws { min-height: 100dvh; background: var(--bone); display: flex; flex-direction: column; }
-        .ws-wrap { max-width: 720px; margin: 0 auto; padding: 32px 24px 80px; width: 100%; }
+        .ws { min-height: 100dvh; background: var(--bone); display: flex; flex-direction: column; overflow-x: hidden; }
+        .ws-wrap { max-width: 720px; margin: 0 auto; padding: 32px 24px 80px; width: 100%; box-sizing: border-box; }
         .ws-logo { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-size: 17px; color: var(--ink); font-weight: 400; margin-bottom: 34px; }
         .ws-prog { margin-bottom: 42px; }
-        .ws-body { min-height: 480px; }
+        .ws-body { min-height: 480px; position: relative; overflow-x: hidden; }
         .ws-step { width: 100%; }
         .ws-error { margin-top: 18px; padding: 14px 18px; background: rgba(181,86,75,0.08); border: 1px solid rgba(181,86,75,0.3); border-radius: var(--r); font-size: 14px; color: var(--rose); }
         .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        @media (max-width: 430px) {
+          .ws-wrap { padding: 24px 18px 64px; }
+        }
       `}</style>
     </div>
   )

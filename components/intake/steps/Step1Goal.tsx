@@ -56,11 +56,13 @@ export default function Step1Goal({ data, update, onNext }: Props) {
         .step-q { display: flex; flex-direction: column; gap: 10px; }
         .step-num { font-family: var(--mono); font-size: 11px; color: var(--brass-deep); letter-spacing: 0.2em; }
         .step-title { font-family: var(--display); font-weight: 380; font-size: clamp(24px, 3vw, 32px); line-height: 1.15; letter-spacing: -0.01em; }
-        .step-hint { font-size: 14.5px; color: var(--slate); line-height: 1.55; }
+        .step-hint { font-size: 14.5px; color: var(--slate-strong); line-height: 1.55; }
         .opts-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         .step-nav { padding-top: 8px; }
+        .step-btn { min-height: 48px; }
         .step-btn:disabled { opacity: 0.45; cursor: not-allowed; }
         @media (max-width: 600px) { .opts-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 520px) { .step-btn { width: 100%; } }
       `}</style>
     </div>
   )

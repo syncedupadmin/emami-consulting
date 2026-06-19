@@ -1,21 +1,23 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 import MagneticButton from '@/components/ui/MagneticButton'
 
 export default function TwoTracks() {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-10%' })
+  const reduce = useReducedMotion()
 
   return (
     <section ref={ref} className="sec-pad" style={{ background: 'var(--bone-2)' }}>
+      <span className="sec-index" aria-hidden="true">07</span>
       <div className="wrap">
         <motion.div
           className="sec-head"
-          initial={{ opacity: 0, y: 28 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ type: 'spring', damping: 25, stiffness: 110 }}
         >
           <span className="eyebrow"><span className="num">07</span>&nbsp; Two Ways to Engage</span>
           <h2 className="sec-title">
@@ -29,10 +31,10 @@ export default function TwoTracks() {
         <div className="tracks">
           <motion.div
             className="track track-a"
-            initial={{ opacity: 0, y: 28 }}
+            initial={reduce ? false : { opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.15, ease: [0.22, 0.61, 0.36, 1] }}
-            whileHover={{ y: -4 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 110, delay: 0.06 }}
+            whileHover={reduce ? undefined : { y: -4 }}
           >
             <div className="tg ta-glow" aria-hidden="true" />
             <div className="track-head">
@@ -53,10 +55,10 @@ export default function TwoTracks() {
 
           <motion.div
             className="track track-b"
-            initial={{ opacity: 0, y: 28 }}
+            initial={reduce ? false : { opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.7, delay: 0.24, ease: [0.22, 0.61, 0.36, 1] }}
-            whileHover={{ y: -4 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 110, delay: 0.12 }}
+            whileHover={reduce ? undefined : { y: -4 }}
           >
             <div className="tg tb-glow" aria-hidden="true" />
             <div className="track-head">
@@ -70,7 +72,7 @@ export default function TwoTracks() {
               <li>Vendor coordination on integration issues</li>
               <li>Direct access to Dr. Emami</li>
             </ul>
-            <a href="mailto:nick@syncedupsolutions.com" className="btn btn-ghost-d track-cta" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontWeight: 600 }}>
+            <a href="mailto:nick@syncedupsolutions.com" className="btn btn-ghost-d track-cta" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 44, gap: 8, fontWeight: 600 }}>
               Inquire about Managed Support →
             </a>
           </motion.div>
@@ -110,8 +112,12 @@ export default function TwoTracks() {
         .track-list { position: relative; z-index: 2; list-style: none; display: grid; gap: 10px; }
         .track-list li { font-size: 14px; color: var(--bone-dim); padding-left: 20px; position: relative; }
         .track-list li::before { content: "→"; position: absolute; left: 0; color: var(--brass); }
-        .track-cta { position: relative; z-index: 2; align-self: flex-start; }
+        .track-cta { position: relative; z-index: 2; align-self: flex-start; min-height: 44px; }
         @media (max-width: 860px) { .tracks { grid-template-columns: 1fr; } }
+        @media (max-width: 480px) {
+          .track { padding: 28px 22px; }
+          .track-cta { align-self: stretch; width: 100%; justify-content: center; }
+        }
       `}</style>
     </section>
   )

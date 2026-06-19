@@ -1,12 +1,42 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 import MagneticButton from '@/components/ui/MagneticButton'
+
+const SPRINT_ITEMS = [
+  '45-min intake call with Dr. Emami',
+  'AI-assisted roadmap draft',
+  'Expert clinical review & edit',
+  'Vendor-neutral recommendations',
+  'Sequenced budget + ROI path',
+  'Delivered in 5 business days',
+  '30-day Q&A window',
+]
+
+function CheckIcon() {
+  return (
+    <svg
+      className="sc-check"
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M20 6 9 17l-5-5" />
+    </svg>
+  )
+}
 
 export default function Engage() {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-10%' })
+  const reduce = useReducedMotion()
 
   return (
     <section ref={ref} className="engage-sec sec-pad">
@@ -17,12 +47,12 @@ export default function Engage() {
         <div className="engage-inner">
           <motion.div
             className="engage-content"
-            initial={{ opacity: 0, y: 32 }}
+            initial={reduce ? false : { opacity: 0, y: 24 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.9, ease: [0.22, 0.61, 0.36, 1] }}
+            transition={{ type: 'spring', damping: 25, stiffness: 110 }}
           >
-            <span className="eyebrow" style={{ color: 'var(--brass-bright)' }}>
-              <span className="num" style={{ color: 'var(--teal-soft)' }}>09</span>&nbsp; The Next Step
+            <span className="eyebrow eyebrow--dark">
+              <span className="num">09</span>&nbsp; The Next Step
             </span>
             <h2 className="sec-title" style={{ color: 'var(--bone)' }}>
               Buy clarity{' '}
@@ -55,24 +85,16 @@ export default function Engage() {
 
           <motion.div
             className="sprint-card"
-            initial={{ opacity: 0, x: 40, rotate: 2 }}
-            animate={inView ? { opacity: 1, x: 0, rotate: 0 } : {}}
-            transition={{ duration: 0.9, delay: 0.2, type: 'spring', damping: 22, stiffness: 90 }}
+            initial={reduce ? false : { opacity: 0, y: 24 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ type: 'spring', damping: 25, stiffness: 110, delay: 0.06 }}
           >
             <div className="sc-glow" aria-hidden="true" />
             <div className="sc-badge">Blueprint Sprint · $8,500</div>
             <ul className="sc-list">
-              {[
-                '45-min intake call with Dr. Emami',
-                'AI-assisted roadmap draft',
-                'Expert clinical review & edit',
-                'Vendor-neutral recommendations',
-                'Sequenced budget + ROI path',
-                'Delivered in 5 business days',
-                '30-day Q&A window',
-              ].map((item) => (
+              {SPRINT_ITEMS.map((item) => (
                 <li key={item}>
-                  <span style={{ color: 'var(--teal-soft)' }}>✓</span>
+                  <span className="sc-check-wrap" style={{ color: 'var(--teal-soft)' }}><CheckIcon /></span>
                   {item}
                 </li>
               ))}
@@ -91,8 +113,8 @@ export default function Engage() {
         .engage-inner { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; position: relative; z-index: 2; }
         .engage-content { display: flex; flex-direction: column; gap: 28px; }
         .engage-btns { display: flex; gap: 14px; flex-wrap: wrap; }
-        .engage-meta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; color: var(--bone-faint); letter-spacing: 0.06em; }
-        .dot { opacity: 0.4; }
+        .engage-meta { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; font-family: var(--mono); font-size: 11px; color: var(--bone-quiet); letter-spacing: 0.06em; }
+        .dot { opacity: 0.6; }
 
         .sprint-card { background: rgba(244,239,230,0.04); border: 1px solid var(--line-d); border-radius: var(--r-lg); padding: 34px; position: relative; overflow: hidden; }
         .sprint-card:hover { background: rgba(244,239,230,0.07); }
@@ -100,9 +122,15 @@ export default function Engage() {
         .sc-badge { font-family: var(--mono); font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass-bright); border: 1px solid rgba(205,162,81,0.35); border-radius: 100px; padding: 7px 16px; display: inline-block; margin-bottom: 24px; position: relative; z-index: 2; }
         .sc-list { list-style: none; display: grid; gap: 12px; position: relative; z-index: 2; margin-bottom: 24px; }
         .sc-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--bone-dim); }
-        .sc-tagline { font-family: var(--display); font-weight: 330; font-size: 16px; color: var(--bone-faint); font-style: italic; line-height: 1.4; border-top: 1px solid var(--line-d); padding-top: 20px; position: relative; z-index: 2; }
+        .sc-check-wrap { display: inline-flex; flex-shrink: 0; margin-top: 1px; }
+        .sc-tagline { font-family: var(--display); font-weight: 330; font-size: 16px; color: var(--bone-quiet); font-style: italic; line-height: 1.4; border-top: 1px solid var(--line-d); padding-top: 20px; position: relative; z-index: 2; }
 
         @media (max-width: 900px) { .engage-inner { grid-template-columns: 1fr; gap: 40px; } }
+        @media (max-width: 480px) {
+          .sprint-card { padding: 26px; }
+          .engage-btns { flex-direction: column; align-items: stretch; }
+          .engage-btns :global(.btn) { width: 100%; }
+        }
       `}</style>
     </section>
   )

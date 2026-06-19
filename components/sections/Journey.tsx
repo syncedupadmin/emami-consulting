@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { useRef } from 'react'
 
 const STEPS = [
@@ -15,19 +15,22 @@ const STEPS = [
 ]
 
 export default function Journey() {
+  const reduce = useReducedMotion()
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-12%' })
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.8', 'end 0.5'] })
   const lineProgress = useTransform(scrollYProgress, [0, 1], [0, 1])
+  const lineScaleY = reduce ? 1 : lineProgress
 
   return (
-    <section ref={ref} className="sec-pad" id="journey" style={{ background: 'var(--bone)' }}>
+    <section ref={ref} className="sec-pad" id="journey" style={{ background: 'var(--bone)', position: 'relative', overflow: 'hidden' }}>
+      <span className="sec-index" aria-hidden="true">05</span>
       <div className="wrap">
         <motion.div
           className="sec-head"
-          initial={{ opacity: 0, y: 28 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ type: 'spring', damping: 25, stiffness: 110 }}
         >
           <span className="eyebrow"><span className="num">05</span>&nbsp; How It Works</span>
           <h2 className="sec-title">From intake to implementation — a complete path.</h2>
@@ -38,7 +41,7 @@ export default function Journey() {
           <div className="jline-outer" aria-hidden="true">
             <motion.div
               className="jline-fill"
-              style={{ scaleY: lineProgress, transformOrigin: 'top' }}
+              style={{ scaleY: lineScaleY, transformOrigin: 'top' }}
             />
           </div>
 
@@ -47,9 +50,9 @@ export default function Journey() {
               <motion.div
                 key={s.n}
                 className="step"
-                initial={{ opacity: 0, x: -20 }}
-                animate={inView ? { opacity: 1, x: 0 } : {}}
-                transition={{ duration: 0.6, delay: 0.1 + i * 0.07, ease: [0.22, 0.61, 0.36, 1] }}
+                initial={reduce ? false : { opacity: 0, y: 24 }}
+                animate={inView ? { opacity: 1, y: 0 } : {}}
+                transition={{ type: 'spring', damping: 25, stiffness: 110, delay: i * 0.06 }}
               >
                 <div className="step-dot" aria-hidden="true">
                   <span className="step-n">{s.n}</span>

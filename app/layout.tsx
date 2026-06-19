@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Fraunces, Inter, IBM_Plex_Mono } from 'next/font/google'
 import './globals.css'
 import LenisProvider from '@/components/providers/LenisProvider'
@@ -33,6 +33,13 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+  themeColor: '#0B1A28',
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
@@ -47,6 +54,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       }
     >
       <body>
+        <a href="#main" className="skip-link">Skip to content</a>
         <LenisProvider>
           <ScrollProgress />
           {children}

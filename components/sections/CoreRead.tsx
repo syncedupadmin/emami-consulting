@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 
 const PILLARS = [
@@ -12,15 +12,17 @@ const PILLARS = [
 export default function CoreRead() {
   const ref = useRef<HTMLElement>(null)
   const inView = useInView(ref, { once: true, margin: '-10%' })
+  const reduce = useReducedMotion()
 
   return (
     <section ref={ref} className="sec-pad" id="core">
+      <span className="sec-index" aria-hidden="true">01</span>
       <div className="wrap">
         <motion.div
           className="sec-head"
-          initial={{ opacity: 0, y: 28 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ type: 'spring', damping: 25, stiffness: 110 }}
         >
           <span className="eyebrow"><span className="num">01</span>&nbsp; The Core Read</span>
           <h2 className="sec-title">
@@ -39,10 +41,10 @@ export default function CoreRead() {
             <motion.div
               key={p.num}
               className="pillar"
-              initial={{ opacity: 0, y: 28 }}
+              initial={reduce ? false : { opacity: 0, y: 24 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.15 + i * 0.08, ease: [0.22, 0.61, 0.36, 1] }}
-              whileHover={{ y: -5 }}
+              transition={{ type: 'spring', damping: 25, stiffness: 110, delay: i * 0.06 }}
+              whileHover={reduce ? undefined : { y: -5 }}
             >
               <div className="pillar-num">{p.num}</div>
               <h3 className="pillar-title">{p.title}</h3>
@@ -53,16 +55,15 @@ export default function CoreRead() {
 
         <motion.div
           className="quote-band"
-          initial={{ opacity: 0, y: 28 }}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 0.61, 0.36, 1] }}
+          transition={{ type: 'spring', damping: 25, stiffness: 110, delay: 0.18 }}
         >
-          <div className="quote-glow" aria-hidden="true" />
           <p>
             Dentists don&apos;t lack technology. They lack a{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--brass-bright)' }}>trusted, vendor-neutral plan</em>
+            <em style={{ fontStyle: 'italic', color: 'var(--brass-deep)' }}>trusted, vendor-neutral plan</em>
             {' '}for buying, sequencing, and actually using it. Emami Consulting sells the one thing the equipment reps can&apos;t:{' '}
-            <em style={{ fontStyle: 'italic', color: 'var(--brass-bright)' }}>clarity before the spend.</em>
+            <em style={{ fontStyle: 'italic', color: 'var(--brass-deep)' }}>clarity before the spend.</em>
           </p>
         </motion.div>
       </div>
@@ -95,32 +96,27 @@ export default function CoreRead() {
         .pillar-body { font-size: 14.5px; color: var(--slate); line-height: 1.6; }
         .quote-band {
           margin-top: 58px;
-          background: var(--ink);
-          color: var(--bone);
-          border-radius: var(--r-lg);
-          padding: clamp(34px, 5vw, 60px);
+          padding: clamp(8px, 2vw, 14px) 0 clamp(8px, 2vw, 14px) clamp(22px, 3vw, 34px);
+          border-left: 2px solid var(--brass);
           position: relative;
-          overflow: hidden;
-        }
-        .quote-glow {
-          position: absolute;
-          width: 380px; height: 380px;
-          border-radius: 50%;
-          background: radial-gradient(circle, rgba(182,136,63,0.3), transparent 65%);
-          filter: blur(70px);
-          bottom: -160px; right: -100px;
+          max-width: 900px;
         }
         .quote-band p {
           font-family: var(--display);
           font-weight: 330;
           font-size: clamp(22px, 3vw, 34px);
-          line-height: 1.28;
+          line-height: 1.32;
           letter-spacing: -0.012em;
-          position: relative;
-          z-index: 2;
+          color: var(--ink);
           max-width: 880px;
         }
-        @media (max-width: 820px) { .pillars { grid-template-columns: 1fr; } }
+        @media (max-width: 820px) {
+          .pillars { grid-template-columns: 1fr; }
+          .quote-band { margin-top: 44px; padding-left: 18px; }
+        }
+        @media (max-width: 480px) {
+          .pillar { padding: 26px 22px; }
+        }
       `}</style>
     </section>
   )

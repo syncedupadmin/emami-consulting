@@ -36,7 +36,7 @@ export default function Footer() {
             <div className="ft-col">
               <div className="ft-col-head">Contact</div>
               <a href="mailto:nick@syncedupsolutions.com">nick@syncedupsolutions.com</a>
-              <span style={{ color: 'var(--bone-faint)', fontSize: 12.5 }}>Engagements by application</span>
+              <span className="ft-note">Engagements by application</span>
             </div>
           </div>
         </div>
@@ -56,16 +56,21 @@ export default function Footer() {
         .ft-top { display: flex; justify-content: space-between; gap: 40px; margin-bottom: 56px; }
         .ft-brand { display: flex; align-items: center; gap: 14px; }
         .ft-name { font-family: var(--display); font-size: 18px; color: var(--bone); font-weight: 400; }
-        .ft-sub { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--bone-faint); margin-top: 5px; }
+        .ft-sub { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.28em; text-transform: uppercase; color: var(--bone-quiet); margin-top: 5px; }
         .ft-links-grid { display: flex; gap: 48px; }
-        .ft-col { display: flex; flex-direction: column; gap: 12px; }
-        .ft-col-head { font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--bone-faint); margin-bottom: 4px; }
-        .ft-col a { font-size: 13.5px; color: var(--bone-dim); transition: color 0.22s; }
+        .ft-col { display: flex; flex-direction: column; gap: 4px; }
+        .ft-col-head { font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--bone-quiet); margin-bottom: 8px; }
+        .ft-col a { font-size: 13.5px; color: var(--bone-dim); transition: color 0.22s; min-height: 44px; display: flex; align-items: center; }
         .ft-col a:hover { color: var(--brass-bright); }
+        .ft-note { font-size: 12.5px; color: var(--bone-quiet); min-height: 44px; display: flex; align-items: center; }
         .ft-bottom { border-top: 1px solid var(--line-d); padding-top: 28px; display: flex; gap: 22px; flex-direction: column; }
-        .ft-copy { font-size: 12.5px; color: var(--bone-faint); }
-        .ft-disclaimer { font-size: 11.5px; color: var(--bone-faint); opacity: 0.6; line-height: 1.65; max-width: 780px; }
-        @media (max-width: 860px) { .ft-top { flex-direction: column; } .ft-links-grid { flex-wrap: wrap; gap: 30px; } }
+        .ft-copy { font-size: 12.5px; color: var(--bone-quiet); }
+        .ft-disclaimer { font-size: 12px; color: var(--bone-quiet); line-height: 1.65; max-width: 780px; }
+        @media (max-width: 860px) {
+          .ft-top { flex-direction: column; }
+          .ft-links-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px 30px; flex-wrap: initial; }
+        }
+        @media (max-width: 380px) { .ft-links-grid { grid-template-columns: 1fr; } }
       `}</style>
     </footer>
   )

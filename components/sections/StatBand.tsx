@@ -1,6 +1,6 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, useReducedMotion } from 'framer-motion'
 import { useRef } from 'react'
 import { useCountUp } from '@/hooks/useCountUp'
 
@@ -13,6 +13,7 @@ interface StatProps {
 }
 
 function Stat({ value, unit, prefix, label, delay }: StatProps) {
+  const reduce = useReducedMotion()
   const { ref, rounded } = useCountUp(value)
   const containerRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(containerRef, { once: true, margin: '-10%' })
@@ -21,9 +22,9 @@ function Stat({ value, unit, prefix, label, delay }: StatProps) {
     <motion.div
       ref={containerRef}
       className="stat"
-      initial={{ opacity: 0, y: 20 }}
+      initial={reduce ? false : { opacity: 0, y: 24 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay, ease: [0.22, 0.61, 0.36, 1] }}
+      transition={{ type: 'spring', damping: 25, stiffness: 110, delay }}
     >
       <div className="stat-n">
         {prefix && <span className="stat-u">{prefix}</span>}
@@ -46,9 +47,15 @@ function Stat({ value, unit, prefix, label, delay }: StatProps) {
           color: var(--ink);
         }
         .stat-u { color: var(--brass-deep); font-size: 0.62em; }
-        .stat-l { margin-top: 12px; font-size: 13.5px; color: var(--slate); line-height: 1.5; max-width: 230px; }
+        .stat-l { margin-top: 12px; font-size: 14px; color: var(--slate-strong); line-height: 1.55; max-width: 230px; }
         @media (max-width: 820px) { .stat { border-right: none; border-bottom: 1px solid var(--line); } .stat:last-child { border-bottom: none; } }
         @media (max-width: 820px) { .stat:nth-child(odd) { border-right: 1px solid var(--line); } .stat:nth-child(4) { border-bottom: none; } }
+        @media (max-width: 480px) {
+          .stat { padding: 32px 22px; }
+          .stat:nth-child(odd) { border-right: none; }
+          .stat:nth-child(3) { border-bottom: 1px solid var(--line); }
+          .stat-l { max-width: none; }
+        }
       `}</style>
     </motion.div>
   )
@@ -57,6 +64,7 @@ function Stat({ value, unit, prefix, label, delay }: StatProps) {
 export default function StatBand() {
   return (
     <section style={{ background: 'var(--bone-2)', borderBottom: '1px solid var(--line)' }}>
+      <h2 className="sr-only">The cost of buying dental technology blind</h2>
       <div className="wrap">
         <div className="stats-grid">
           <Stat value={150} unit="K" prefix="$" label="A single CBCT can run $50K–$150K — before training, integration, or ROI." delay={0} />
@@ -68,6 +76,7 @@ export default function StatBand() {
       <style jsx>{`
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); }
         @media (max-width: 820px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
       `}</style>
     </section>
   )
