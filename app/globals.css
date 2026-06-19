@@ -1,33 +1,63 @@
+/* ============================================================
+   EMAMI CONSULTING — Brand System
+   Editorial-medical-luxury. Ink + Brass + Clinical Teal on Bone.
+   ============================================================ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #0B1A28;
+  --ink-soft: #11293b;
+  --ink-2: #0d2030;
+  --bone: #F4EFE6;
+  --bone-2: #ECE3D4;
+  --bone-3: #E3D8C5;
+  --brass: #B6883F;
+  --brass-bright: #CDA251;
+  --brass-deep: #946E2F;
+  --teal: #1C6E62;
+  --teal-soft: #2F8E7E;
+  --slate: #566571;
+  --rose: #B5564B;
+  --plum: #6A5A86;
+  --line: rgba(11, 26, 40, 0.13);
+  --line-strong: rgba(11, 26, 40, 0.22);
+  --line-d: rgba(244, 239, 230, 0.15);
+  --bone-dim: rgba(244, 239, 230, 0.66);
+  --bone-faint: rgba(244, 239, 230, 0.40);
+  --shadow-sm: 0 1px 2px rgba(11, 26, 40, 0.05), 0 4px 14px rgba(11, 26, 40, 0.05);
+  --shadow: 0 2px 6px rgba(11, 26, 40, 0.06), 0 18px 44px -18px rgba(11, 26, 40, 0.20);
+  --shadow-lg: 0 30px 80px -28px rgba(11, 26, 40, 0.42);
+  --r: 14px;
+  --r-lg: 22px;
+  --maxw: 1180px;
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --display: "Fraunces", Georgia, serif;
+  --ui: "Inter", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-html,
+html {
+  scroll-behavior: auto;
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  max-width: 100vw;
+  font-family: var(--ui);
+  background: var(--bone);
+  color: var(--ink);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+::selection {
+  background: var(--brass);
+  color: var(--ink);
 }
 
 a {
@@ -35,8 +65,99 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* grain overlay */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* typography helpers */
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--brass-deep);
+}
+.eyebrow .num { color: var(--teal); }
+
+.display {
+  font-family: var(--display);
+  font-weight: 340;
+  font-optical-sizing: auto;
+  line-height: 1.04;
+  letter-spacing: -0.012em;
+}
+.display em { font-style: italic; font-weight: 380; color: var(--brass-deep); }
+
+.lead {
+  font-size: clamp(17px, 1.6vw, 20px);
+  color: var(--slate);
+  line-height: 1.65;
+  font-weight: 400;
+}
+.mono { font-family: var(--mono); }
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+section { position: relative; }
+.sec-pad { padding: clamp(72px, 9vw, 140px) 0; }
+
+.sec-head { max-width: 760px; }
+.sec-head .eyebrow { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.sec-head .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--brass); display: inline-block; }
+
+.sec-title {
+  font-family: var(--display);
+  font-weight: 340;
+  font-size: clamp(30px, 4.4vw, 52px);
+  line-height: 1.06;
+  letter-spacing: -0.015em;
+}
+.sec-sub { margin-top: 20px; font-size: clamp(16px, 1.5vw, 18.5px); color: var(--slate); max-width: 620px; line-height: 1.66; }
+
+/* buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--ui);
+  font-weight: 600;
+  font-size: 14.5px;
+  padding: 14px 26px;
+  border-radius: 100px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  letter-spacing: 0.005em;
+}
+.btn-primary { background: var(--ink); color: var(--bone); box-shadow: var(--shadow); }
+.btn-gold {
+  background: linear-gradient(135deg, var(--brass-bright), var(--brass));
+  color: #1a1407;
+  box-shadow: 0 10px 30px -10px rgba(182, 136, 63, 0.7);
+}
+.btn-ghost-d { background: transparent; color: var(--bone); border: 1px solid var(--line-d); }
+
+/* focus accessibility */
+:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; border-radius: 4px; }
+
+@media (max-width: 880px) { .wrap { padding: 0 22px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
