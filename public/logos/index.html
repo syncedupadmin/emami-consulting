@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Emami Consulting — Logo Options</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0A0D11; --panel:#11161F; --text:#EAF1F6; --muted:#8E9AAE;
+    --blue:#0A84E6; --silver:#C7CBD3; --hair:rgba(234,241,246,0.12);
+    --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,sans-serif; --mono:"IBM Plex Mono",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:var(--body);-webkit-font-smoothing:antialiased;line-height:1.6;overflow-x:hidden}
+  img{display:block;max-width:100%}
+  .wrap{max-width:1180px;margin:0 auto;padding:clamp(28px,6vw,72px) clamp(18px,5vw,40px)}
+  header{margin-bottom:clamp(28px,5vw,48px)}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:0.24em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:12px}
+  .eyebrow::before{content:"";width:28px;height:1px;background:var(--blue)}
+  h1{font-family:var(--display);font-weight:700;font-size:clamp(30px,5vw,52px);letter-spacing:-0.02em;margin:18px 0 12px;line-height:1.02;text-wrap:balance}
+  h1 em{font-style:normal;color:var(--blue)}
+  .sub{color:var(--muted);max-width:60ch;font-size:clamp(15px,1.6vw,17px)}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(16px,2.4vw,26px);margin-top:clamp(28px,4vw,44px)}
+  @media(max-width:720px){ .grid{grid-template-columns:1fr} }
+  .card{background:var(--panel);border:1px solid var(--hair);border-radius:18px;overflow:hidden;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+  .card:hover{transform:translateY(-4px);border-color:rgba(10,132,230,0.5);box-shadow:0 24px 60px -30px rgba(10,132,230,0.5)}
+  .card a{display:block;color:inherit}
+  .shot{position:relative;aspect-ratio:1/1;background:#000}
+  .shot img{width:100%;height:100%;object-fit:cover}
+  .num{position:absolute;top:14px;left:14px;z-index:2;font-family:var(--mono);font-size:12px;letter-spacing:0.1em;color:#fff;background:var(--blue);border-radius:100px;padding:5px 12px}
+  .meta{padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:14px;border-top:1px solid var(--hair)}
+  .meta h2{font-family:var(--display);font-weight:500;font-size:18px;letter-spacing:-0.01em}
+  .meta p{color:var(--muted);font-size:13px;margin-top:4px}
+  .tag{font-family:var(--mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:var(--silver);border:1px solid var(--hair);border-radius:100px;padding:5px 10px;white-space:nowrap;flex:0 0 auto}
+  .note{margin-top:clamp(30px,5vw,48px);padding:20px 22px;border:1px solid var(--hair);border-radius:14px;color:var(--muted);font-size:14px;background:rgba(10,132,230,0.05)}
+  .note b{color:var(--text)}
+  footer{margin-top:40px;color:var(--muted);font-size:12px;font-family:var(--mono);letter-spacing:0.06em}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="eyebrow">Emami Consulting · Identity</div>
+      <h1>Logo options — <em>pick one</em></h1>
+      <p class="sub">Five directions, generated in Dr. Emami's brand colors (royal blue #0A84E6 + silver/chrome, drawn from his Dental Surgical Center diamond). Tap any logo to open it full-size. Reply with the number you want.</p>
+    </header>
+
+    <div class="grid">
+      <div class="card"><a href="1-diamond.png" target="_blank" rel="noopener">
+        <div class="shot"><span class="num">01</span><img src="1-diamond.png" alt="Diamond logo" /></div>
+        <div class="meta"><div><h2>Diamond</h2><p>Faceted blue + chrome diamond — direct nod to his Dental Surgical Center mark.</p></div><span class="tag">Recommended</span></div>
+      </a></div>
+
+      <div class="card"><a href="4-clarity.png" target="_blank" rel="noopener">
+        <div class="shot"><span class="num">04</span><img src="4-clarity.png" alt="Clarity aperture logo" /></div>
+        <div class="meta"><div><h2>Clarity</h2><p>Aperture / lens converging to a focal point — "clarity before technology."</p></div><span class="tag">Recommended</span></div>
+      </a></div>
+
+      <div class="card"><a href="3-roadmap.png" target="_blank" rel="noopener">
+        <div class="shot"><span class="num">03</span><img src="3-roadmap.png" alt="Roadmap logo" /></div>
+        <div class="meta"><div><h2>Roadmap</h2><p>Ascending route with waypoints to a diamond node — the actual product.</p></div></div>
+      </a></div>
+
+      <div class="card"><a href="2-monogram.png" target="_blank" rel="noopener">
+        <div class="shot"><span class="num">02</span><img src="2-monogram.png" alt="Monogram E logo" /></div>
+        <div class="meta"><div><h2>Monogram E</h2><p>Geometric chrome + blue "E" in a ring — bold and corporate.</p></div></div>
+      </a></div>
+
+      <div class="card"><a href="5-crest.png" target="_blank" rel="noopener">
+        <div class="shot"><span class="num">05</span><img src="5-crest.png" alt="Crest logo" /></div>
+        <div class="meta"><div><h2>Diamond + Path</h2><p>Diamond crest that reads as an upward arrow — precision + direction.</p></div></div>
+      </a></div>
+    </div>
+
+    <div class="note">
+      <b>Notes:</b> these are AI-generated raster concepts to pick a direction. Once you choose, I'll rebuild it as a clean, crisp vector (SVG) logo — sharp at any size, with proper transparent + light/dark versions — and wire it into the site.
+    </div>
+    <footer>EMAMI CONSULTING · DENTAL TECHNOLOGY ADVISORY</footer>
+  </div>
+</body>
+</html>
