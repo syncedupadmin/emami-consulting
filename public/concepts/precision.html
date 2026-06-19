@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Emami Consulting — Buy clarity before you buy technology.</title>
+<meta name="description" content="Vendor-neutral dental technology advisory. An expert-reviewed implementation roadmap before you spend $10K–$150K+ on scanners, CBCT, milling and full-arch systems." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F4F4F1;
+    --ink:#0B0F12;
+    --muted:#6A7178;
+    --cobalt:#1F44FF;
+    --hair:#0B0F1218;
+    --hair-strong:#0B0F1233;
+    --black:#0B0F12;
+    --display:"Archivo", system-ui, sans-serif;
+    --body:"Inter", system-ui, sans-serif;
+    --mono:"IBM Plex Mono", ui-monospace, monospace;
+    --pad: clamp(20px, 5vw, 72px);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+    line-height:1.45;
+  }
+  ::selection{background:var(--cobalt);color:#fff;}
+  a{color:inherit;text-decoration:none;}
+  img,video{display:block;max-width:100%;}
+
+  .mono{font-family:var(--mono);}
+  .label{
+    font-family:var(--mono);
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  .label--ink{color:var(--ink);}
+  .label--cobalt{color:var(--cobalt);}
+
+  .wrap{ width:100%; max-width:1480px; margin:0 auto; padding-left:var(--pad); padding-right:var(--pad); }
+
+  /* index numerals */
+  .idx{
+    font-family:var(--display);
+    font-weight:800;
+    font-feature-settings:"tnum" 1;
+    line-height:0.8;
+    letter-spacing:-0.03em;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    width:100%;
+    backdrop-filter:saturate(140%) blur(10px);
+    -webkit-backdrop-filter:saturate(140%) blur(10px);
+    background:rgba(244,244,241,0.72);
+    border-bottom:1px solid var(--hair);
+  }
+  .nav__inner{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .brand{display:flex; align-items:center; gap:12px;}
+  .brand__mark{ width:30px; height:30px; flex:0 0 auto; }
+  .brand__name{
+    font-family:var(--display);
+    font-weight:800;
+    font-size:15px;
+    letter-spacing:-0.01em;
+    text-transform:uppercase;
+  }
+  .brand__name b{color:var(--cobalt);}
+  .nav__right{display:flex; align-items:center; gap:22px;}
+  .nav__links{display:none; gap:26px;}
+  .nav__links a{ font-family:var(--mono); font-size:12px; letter-spacing:0.04em; color:var(--muted); transition:color .18s; }
+  .nav__links a:hover{color:var(--ink);}
+
+  .btn{
+    display:inline-flex; align-items:center; gap:9px;
+    font-family:var(--mono); font-weight:600; font-size:12.5px;
+    letter-spacing:0.06em; text-transform:uppercase;
+    padding:12px 18px;
+    border:1px solid var(--ink);
+    transition:transform .15s ease, background .15s ease, color .15s ease, border-color .15s ease;
+    cursor:pointer; white-space:nowrap;
+  }
+  .btn--primary{ background:var(--cobalt); color:#fff; border-color:var(--cobalt); }
+  .btn--primary:hover{ transform:translateY(-2px); box-shadow:0 8px 0 -2px #0B0F1222; }
+  .btn--ghost{ background:transparent; color:var(--ink); }
+  .btn--ghost:hover{ background:var(--ink); color:var(--paper); }
+  .btn--invert{ background:var(--paper); color:var(--ink); border-color:var(--paper); }
+  .btn--invert:hover{ background:var(--cobalt); color:#fff; border-color:var(--cobalt); }
+  .btn .arr{ transition:transform .15s ease; }
+  .btn:hover .arr{ transform:translateX(3px); }
+
+  /* ---------- HERO ---------- */
+  .hero{ position:relative; padding-top:clamp(28px,5vw,56px); padding-bottom:clamp(36px,5vw,64px); border-bottom:1px solid var(--ink); }
+  .hero__grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:clamp(28px,4vw,40px);
+    align-items:end;
+  }
+  .hero__head{ position:relative; }
+
+  .hero__kicker{ display:flex; align-items:center; gap:14px; margin-bottom:clamp(20px,4vw,34px); }
+  .hero__kicker .line{ height:1px; background:var(--cobalt); flex:1; max-width:120px; }
+
+  .display{
+    font-family:var(--display);
+    font-weight:800;
+    line-height:0.86;
+    letter-spacing:-0.035em;
+    text-wrap:balance;
+  }
+  .hero__title{
+    font-size:clamp(52px, 12.5vw, 168px);
+    margin-bottom:clamp(22px,3vw,30px);
+  }
+  .hero__title .l2{ display:block; }
+  .hero__title .accent{ color:var(--cobalt); }
+  .hero__title .thin{ font-weight:600; color:var(--muted); }
+
+  .hero__sub{
+    font-size:clamp(16px,2vw,20px);
+    max-width:46ch;
+    color:var(--ink);
+    line-height:1.5;
+    margin-bottom:clamp(26px,3vw,34px);
+  }
+  .hero__sub strong{font-weight:600;}
+
+  .hero__cta{ display:flex; flex-wrap:wrap; gap:14px; margin-bottom:clamp(26px,3vw,32px); }
+
+  .hero__trust{
+    display:flex; align-items:center; gap:12px;
+    padding-top:18px; border-top:1px solid var(--hair);
+    flex-wrap:wrap;
+  }
+  .hero__trust .dot{ width:7px; height:7px; background:var(--cobalt); border-radius:50%; flex:0 0 auto; }
+  .hero__trust .t{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.02em; }
+  .hero__trust .t b{ color:var(--ink); font-weight:600; }
+
+  /* video column */
+  .hero__media{ position:relative; }
+  .hero__mediaframe{
+    position:relative;
+    aspect-ratio:4 / 5;
+    background:var(--black);
+    overflow:hidden;
+    border:1px solid var(--ink);
+  }
+  .hero__mediaframe video{ width:100%; height:100%; object-fit:cover; }
+  .hero__mediaframe::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(11,15,18,0) 55%, rgba(11,15,18,0.55) 100%);
+    pointer-events:none;
+  }
+  .media__tag{
+    position:absolute; left:0; bottom:0; z-index:2;
+    display:flex; align-items:center; gap:10px;
+    padding:12px 14px;
+    background:var(--cobalt); color:#fff;
+    font-family:var(--mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase;
+  }
+  .media__tag .pulse{ width:7px; height:7px; border-radius:50%; background:#fff; animation:pulse 1.8s infinite ease-in-out; }
+  @keyframes pulse{ 0%,100%{opacity:1; transform:scale(1);} 50%{opacity:.35; transform:scale(.7);} }
+
+  .media__idx{
+    position:absolute; top:-2px; right:0; z-index:2;
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(60px,9vw,118px);
+    line-height:0.7; color:#fff; mix-blend-mode:difference;
+    letter-spacing:-0.04em; padding:8px 12px;
+  }
+
+  .hero__meta{
+    margin-top:14px;
+    display:grid; grid-template-columns:repeat(2,1fr);
+    border-top:1px solid var(--ink);
+  }
+  .hero__meta div{ padding:12px 0; }
+  .hero__meta div + div{ border-left:1px solid var(--hair); padding-left:14px; }
+  .hero__meta .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); }
+  .hero__meta .v{ font-family:var(--display); font-weight:700; font-size:15px; margin-top:3px; }
+
+  /* keyline ghost numeral behind headline */
+  .hero__ghost{
+    position:absolute; top:-12px; left:-2px; z-index:-1;
+    font-family:var(--display); font-weight:900;
+    font-size:clamp(140px,30vw,420px); line-height:0.7;
+    color:transparent;
+    -webkit-text-stroke:1px var(--hair-strong);
+    letter-spacing:-0.05em; pointer-events:none; user-select:none;
+    opacity:.55;
+  }
+
+  /* ---------- STAT / PROBLEM BAND ---------- */
+  .band{ background:var(--black); color:var(--paper); }
+  .band .wrap{ padding-top:clamp(56px,8vw,104px); padding-bottom:clamp(56px,8vw,104px); }
+  .band__top{ display:flex; flex-wrap:wrap; gap:24px 40px; align-items:flex-end; justify-content:space-between; margin-bottom:clamp(40px,6vw,64px); }
+  .band__lead{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(28px,4.6vw,58px);
+    line-height:0.98; letter-spacing:-0.03em; max-width:18ch; text-wrap:balance;
+  }
+  .band__lead .c{ color:var(--cobalt); }
+  .band__note{ max-width:34ch; color:#A9AFB5; font-size:15px; line-height:1.55; }
+  .band .label{ color:#7F868D; }
+
+  .stats{
+    display:grid; grid-template-columns:1fr 1fr;
+    border-top:1px solid #ffffff22;
+  }
+  .stat{ padding:clamp(22px,3vw,34px) 0; border-bottom:1px solid #ffffff14; }
+  .stat:nth-child(odd){ padding-right:18px; }
+  .stat:nth-child(even){ padding-left:18px; border-left:1px solid #ffffff14; }
+  .stat__n{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(40px,7.5vw,92px);
+    line-height:0.82; letter-spacing:-0.04em;
+  }
+  .stat__n .u{ font-size:0.4em; color:var(--cobalt); vertical-align:0.55em; margin-left:2px; }
+  .stat--accent .stat__n{ color:var(--cobalt); }
+  .stat__l{ font-family:var(--mono); font-size:11.5px; letter-spacing:0.05em; color:#A9AFB5; margin-top:16px; max-width:32ch; line-height:1.5; }
+  .stat__tag{ display:inline-block; font-family:var(--mono); font-size:10px; letter-spacing:0.18em; text-transform:uppercase; color:#ffffff; background:#ffffff1a; padding:4px 8px; margin-bottom:14px; }
+
+  /* ---------- TECH STRIP ---------- */
+  .tech{ border-bottom:1px solid var(--ink); }
+  .tech .wrap{ padding-top:clamp(48px,6vw,84px); padding-bottom:clamp(48px,6vw,84px); }
+  .tech__head{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:baseline; gap:16px; margin-bottom:clamp(30px,4vw,46px); }
+  .tech__h{ font-family:var(--display); font-weight:800; font-size:clamp(24px,3.6vw,44px); letter-spacing:-0.03em; line-height:0.95; max-width:20ch; text-wrap:balance; }
+  .tech__grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    border-top:1px solid var(--hair); border-left:1px solid var(--hair);
+  }
+  .tcell{
+    border-right:1px solid var(--hair); border-bottom:1px solid var(--hair);
+    padding:clamp(20px,2.6vw,30px);
+    display:flex; flex-direction:column; gap:14px;
+    min-height:150px; position:relative;
+    transition:background .2s ease, color .2s ease;
+  }
+  .tcell:hover{ background:var(--ink); color:var(--paper); }
+  .tcell:hover .tcell__n{ color:#ffffff44; }
+  .tcell:hover svg{ stroke:var(--cobalt); }
+  .tcell svg{ width:34px; height:34px; stroke:var(--ink); stroke-width:1.4; fill:none; stroke-linecap:round; stroke-linejoin:round; transition:stroke .2s ease; }
+  .tcell__n{ position:absolute; top:14px; right:16px; font-family:var(--mono); font-size:11px; color:var(--muted); letter-spacing:0.1em; transition:color .2s ease; }
+  .tcell__t{ font-family:var(--display); font-weight:700; font-size:17px; letter-spacing:-0.01em; margin-top:auto; line-height:1.05; }
+  .tcell__d{ font-size:12.5px; color:var(--muted); line-height:1.45; transition:color .2s ease; }
+  .tcell:hover .tcell__d{ color:#A9AFB5; }
+
+  /* ---------- OFFER ---------- */
+  .offer .wrap{ padding-top:clamp(56px,8vw,104px); padding-bottom:clamp(56px,8vw,104px); }
+  .offer__grid{ display:grid; grid-template-columns:1fr; gap:clamp(32px,5vw,56px); }
+  .offer__l .label{ margin-bottom:18px; }
+  .offer__name{
+    font-family:var(--display); font-weight:800;
+    font-size:clamp(40px,9vw,108px); line-height:0.84; letter-spacing:-0.04em;
+    margin-bottom:clamp(20px,3vw,26px); text-wrap:balance;
+  }
+  .offer__price{
+    display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;
+    padding-bottom:22px; margin-bottom:22px; border-bottom:1px solid var(--ink);
+  }
+  .offer__price .p{ font-family:var(--display); font-weight:800; font-size:clamp(44px,8vw,80px); letter-spacing:-0.04em; line-height:0.9; }
+  .offer__price .p .cur{ color:var(--cobalt); }
+  .offer__price .terms{ font-family:var(--mono); font-size:12px; color:var(--muted); letter-spacing:0.04em; line-height:1.7; }
+  .offer__copy{ font-size:16px; line-height:1.55; max-width:44ch; color:var(--ink); margin-bottom:28px; }
+  .offer__copy b{ font-weight:600; }
+
+  .incl{ border-top:1px solid var(--hair); }
+  .incl__row{
+    display:grid; grid-template-columns:auto 1fr;
+    gap:18px; align-items:start;
+    padding:18px 0; border-bottom:1px solid var(--hair);
+  }
+  .incl__n{ font-family:var(--mono); font-size:12px; color:var(--cobalt); font-weight:600; letter-spacing:0.06em; padding-top:3px; }
+  .incl__t{ font-family:var(--display); font-weight:700; font-size:16px; letter-spacing:-0.01em; }
+  .incl__d{ font-size:13.5px; color:var(--muted); line-height:1.5; margin-top:4px; }
+
+  .offer__cta{ margin-top:30px; display:flex; flex-wrap:wrap; gap:14px; align-items:center; }
+  .offer__cta .fine{ font-family:var(--mono); font-size:11.5px; color:var(--muted); letter-spacing:0.03em; }
+
+  /* expert callout block (real data, not deco card) */
+  .expert{ background:var(--paper); border:1px solid var(--ink); padding:clamp(24px,3vw,34px); position:relative; }
+  .expert__idx{ position:absolute; top:-1px; right:0; font-family:var(--display); font-weight:800; font-size:clamp(60px,10vw,120px); line-height:0.7; color:var(--hair-strong); letter-spacing:-0.04em; padding:8px 12px; pointer-events:none; }
+  .expert .label{ margin-bottom:18px; }
+  .expert__name{ font-family:var(--display); font-weight:800; font-size:clamp(24px,3.2vw,34px); letter-spacing:-0.02em; line-height:0.95; margin-bottom:6px; }
+  .expert__role{ font-family:var(--mono); font-size:12px; color:var(--cobalt); letter-spacing:0.04em; margin-bottom:22px; }
+  .expert__creds{ list-style:none; border-top:1px solid var(--hair); }
+  .expert__creds li{ padding:12px 0; border-bottom:1px solid var(--hair); font-size:14px; display:flex; gap:12px; align-items:flex-start; }
+  .expert__creds li .b{ color:var(--cobalt); font-family:var(--mono); font-size:12px; flex:0 0 auto; padding-top:2px; }
+  .expert__moat{ margin-top:22px; font-size:14px; line-height:1.55; color:var(--ink); }
+  .expert__moat b{ font-weight:600; }
+  .expert__moat .hl{ background:var(--cobalt); color:#fff; padding:0 5px; }
+
+  /* ---------- CLOSING CTA ---------- */
+  .close{ background:var(--cobalt); color:#fff; }
+  .close .wrap{ padding-top:clamp(56px,8vw,96px); padding-bottom:clamp(56px,8vw,96px); }
+  .close__grid{ display:grid; grid-template-columns:1fr; gap:30px; align-items:end; }
+  .close__h{ font-family:var(--display); font-weight:800; font-size:clamp(38px,8vw,104px); line-height:0.86; letter-spacing:-0.04em; text-wrap:balance; }
+  .close__h .o{ color:#0B0F12; }
+  .close .label{ color:#ffffffaa; margin-bottom:22px; }
+  .close__cta{ display:flex; flex-wrap:wrap; gap:14px; }
+
+  /* ---------- FOOTER ---------- */
+  .foot{ background:var(--black); color:var(--paper); }
+  .foot .wrap{ padding-top:40px; padding-bottom:40px; }
+  .foot__row{ display:flex; flex-wrap:wrap; gap:20px 32px; justify-content:space-between; align-items:center; }
+  .foot__brand{ display:flex; align-items:center; gap:12px; }
+  .foot__brand .brand__name{ color:var(--paper); }
+  .foot__brand .brand__name b{ color:var(--cobalt); }
+  .foot__line{ font-family:var(--mono); font-size:12px; color:#7F868D; letter-spacing:0.03em; line-height:1.7; max-width:50ch; }
+  .foot__line .c{ color:var(--cobalt); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (min-width:768px){
+    .nav__links{ display:flex; }
+    .stats{ grid-template-columns:repeat(4,1fr); }
+    .stat:nth-child(odd), .stat:nth-child(even){ padding:clamp(22px,3vw,34px) 22px; border-left:1px solid #ffffff14; }
+    .stat:first-child{ border-left:none; padding-left:0; }
+    .tech__grid{ grid-template-columns:repeat(3,1fr); }
+    .hero__meta{ grid-template-columns:repeat(3,1fr); }
+    .hero__meta div:nth-child(1){ padding-left:0; }
+    .hero__meta div + div{ padding-left:14px; }
+  }
+  @media (min-width:1000px){
+    .hero__grid{ grid-template-columns:1.45fr 0.9fr; }
+    .hero__mediaframe{ aspect-ratio:3 / 4.2; }
+    .offer__grid{ grid-template-columns:1.25fr 0.85fr; align-items:start; }
+    .close__grid{ grid-template-columns:1.6fr 0.7fr; }
+    .tech__grid{ grid-template-columns:repeat(3,1fr); }
+  }
+  @media (min-width:1280px){
+    .hero__mediaframe{ aspect-ratio:3 / 4.4; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="nav">
+  <div class="wrap nav__inner">
+    <a class="brand" href="#top" aria-label="Emami Consulting home">
+      <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1" y="1" width="30" height="30" fill="none" stroke="#0B0F12" stroke-width="1.4"/>
+        <path d="M7 23 L7 9 L16 16 L25 9 L25 23" fill="none" stroke="#1F44FF" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="16" cy="16" r="1.7" fill="#1F44FF"/>
+      </svg>
+      <span class="brand__name">Emami <b>Consulting</b></span>
+    </a>
+    <div class="nav__right">
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#problem">The cost</a>
+        <a href="#tech">Scope</a>
+        <a href="#offer">Blueprint Sprint</a>
+      </nav>
+      <a class="btn btn--primary" href="/intake">Build my roadmap <span class="arr">→</span></a>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero__grid">
+
+        <!-- left: headline -->
+        <div class="hero__head">
+          <span class="hero__ghost" aria-hidden="true">01</span>
+
+          <div class="hero__kicker">
+            <span class="idx label--cobalt mono" style="font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--cobalt);font-family:var(--mono);">[ 01 / Advisory ]</span>
+            <span class="line" aria-hidden="true"></span>
+            <span class="label">Vendor-neutral · Dental technology</span>
+          </div>
+
+          <h1 class="display hero__title">
+            Buy <span class="accent">clarity</span>
+            <span class="l2">before you buy</span>
+            <span class="l2 thin">technology.</span>
+          </h1>
+
+          <p class="hero__sub">
+            We don't sell scanners, CBCT or mills. We produce an <strong>expert-reviewed implementation roadmap</strong> that tells your practice exactly what to buy, in what order, and why — before you commit $10K to $150K+.
+          </p>
+
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="/intake">Build my roadmap <span class="arr">→</span></a>
+            <a class="btn btn--ghost" href="#offer">Book a call</a>
+          </div>
+
+          <div class="hero__trust">
+            <span class="dot" aria-hidden="true"></span>
+            <span class="t">Every roadmap reviewed &amp; signed off by <b>Dr. Justin Emami, DDS</b> — Fellow, Misch Implant Institute · Master, ICOI</span>
+          </div>
+        </div>
+
+        <!-- right: video column -->
+        <div class="hero__media">
+          <div class="hero__mediaframe">
+            <span class="media__idx" aria-hidden="true">01</span>
+            <video autoplay loop muted playsinline preload="auto" poster="/videos/hero-desktop-poster.jpg">
+              <source src="/videos/hero-mobile.mp4" type="video/mp4" media="(max-width:767px)" />
+              <source src="/videos/hero-desktop.mp4" type="video/mp4" />
+            </video>
+            <span class="media__tag"><span class="pulse" aria-hidden="true"></span> Live clinical-tech</span>
+          </div>
+          <div class="hero__meta">
+            <div>
+              <div class="k">Deliverable</div>
+              <div class="v">Implementation roadmap</div>
+            </div>
+            <div>
+              <div class="k">Turnaround</div>
+              <div class="v">5 business days</div>
+            </div>
+            <div>
+              <div class="k">Model</div>
+              <div class="v">No retainer</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PROBLEM / STAT BAND ============ -->
+  <section class="band" id="problem">
+    <div class="wrap">
+      <div class="band__top">
+        <div>
+          <div class="label" style="margin-bottom:18px;">[ 02 / The hidden cost ]</div>
+          <h2 class="band__lead">The equipment isn't the risk. The <span class="c">wrong sequence</span> is.</h2>
+        </div>
+        <p class="band__note">
+          A six-figure tech stack fails when it's bought in the wrong order, integrated badly, or sold by the vendor who profits from the sale. The price tag is only the beginning of the bill.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat stat--accent">
+          <span class="stat__tag">CBCT 3D imaging</span>
+          <div class="stat__n">$50–150<span class="u">K</span></div>
+          <div class="stat__l">Range for a single CBCT unit — before integration, training and room build-out.</div>
+        </div>
+        <div class="stat">
+          <span class="stat__tag">CEREC chairside</span>
+          <div class="stat__n">$129<span class="u">K</span></div>
+          <div class="stat__l">Typical cost of one chairside milling system for same-day crowns.</div>
+        </div>
+        <div class="stat">
+          <span class="stat__tag">Rollouts</span>
+          <div class="stat__n">34<span class="u">%</span></div>
+          <div class="stat__l">Of tech buyers report a smooth rollout. Roughly two in three do not.</div>
+        </div>
+        <div class="stat stat--accent">
+          <span class="stat__tag">Buyer's remorse</span>
+          <div class="stat__n">60<span class="u">%</span></div>
+          <div class="stat__l">Regret a major tech purchase — driven by cost and integration, not the device itself.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECH SCOPE ============ -->
+  <section class="tech" id="tech">
+    <div class="wrap">
+      <div class="tech__head">
+        <div>
+          <div class="label label--cobalt" style="margin-bottom:18px;">[ 03 / In scope ]</div>
+          <h3 class="tech__h">Systems Dr. Emami has personally implemented — and will advise you on.</h3>
+        </div>
+        <span class="label">06 categories</span>
+      </div>
+
+      <div class="tech__grid">
+
+        <div class="tcell">
+          <span class="tcell__n">01</span>
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <rect x="6" y="7" width="22" height="14" rx="2"/>
+            <path d="M28 11 L34 8 L34 20 L28 17"/>
+            <path d="M11 25 L11 33 M17 25 L17 30 M23 25 L23 33"/>
+          </svg>
+          <div>
+            <div class="tcell__t">Intraoral scanners</div>
+            <div class="tcell__d">Digital impressions, fit and workflow selection.</div>
+          </div>
+        </div>
+
+        <div class="tcell">
+          <span class="tcell__n">02</span>
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="13"/>
+            <path d="M20 7 L20 33 M7 20 L33 20"/>
+            <circle cx="20" cy="20" r="4"/>
+          </svg>
+          <div>
+            <div class="tcell__t">CBCT 3D imaging</div>
+            <div class="tcell__d">Cone-beam scope, radiation dose and ROI sizing.</div>
+          </div>
+        </div>
+
+        <div class="tcell">
+          <span class="tcell__n">03</span>
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <rect x="8" y="9" width="24" height="18" rx="2"/>
+            <path d="M14 27 L14 32 M26 27 L26 32 M11 32 L29 32"/>
+            <path d="M20 13 L20 23 M16 18 L24 18"/>
+          </svg>
+          <div>
+            <div class="tcell__t">Chairside milling / CEREC</div>
+            <div class="tcell__d">Same-day crowns, material flow and capacity.</div>
+          </div>
+        </div>
+
+        <div class="tcell">
+          <span class="tcell__n">04</span>
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M10 30 L10 14 L20 8 L30 14 L30 30"/>
+            <path d="M10 14 L20 20 L30 14 M20 20 L20 32"/>
+            <path d="M14 30 L26 30"/>
+          </svg>
+          <div>
+            <div class="tcell__t">3D printing</div>
+            <div class="tcell__d">Models, guides and appliances — in-house vs lab.</div>
+          </div>
+        </div>
+
+        <div class="tcell">
+          <span class="tcell__n">05</span>
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M20 6 L20 22"/>
+            <path d="M14 12 L20 6 L26 12"/>
+            <path d="M12 22 L28 22 L25 34 L15 34 Z"/>
+            <circle cx="20" cy="28" r="2.4"/>
+          </svg>
+          <div>
+            <div class="tcell__t">Guided implant surgery</div>
+            <div class="tcell__d">Planning-to-placement accuracy and case selection.</div>
+          </div>
+        </div>
+
+        <div class="tcell">
+          <span class="tcell__n">06</span>
+          <svg viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M10 14 C10 9 14 7 20 7 C26 7 30 9 30 14 L30 24 C30 30 25 33 20 33 C15 33 10 30 10 24 Z"/>
+            <path d="M15 18 L25 18 M15 23 L25 23"/>
+          </svg>
+          <div>
+            <div class="tcell__t">Sedation workflows</div>
+            <div class="tcell__d">Protocol fit, compliance and staff readiness.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OFFER ============ -->
+  <section class="offer" id="offer">
+    <div class="wrap">
+      <div class="offer__grid">
+
+        <div class="offer__l">
+          <div class="label label--cobalt">[ 04 / Flagship offer ]</div>
+          <h2 class="display offer__name">The Blueprint<br>Sprint</h2>
+
+          <div class="offer__price">
+            <div class="p"><span class="cur">$</span>8,500</div>
+            <div class="terms">
+              One-time · no retainer<br>
+              Delivered in 5 business days<br>
+              30-day Q&amp;A window included
+            </div>
+          </div>
+
+          <p class="offer__copy">
+            <b>AI drafts the analysis. Dr. Emami reviews and signs off on every line.</b> You receive a sequenced, vendor-neutral roadmap: what to buy, in what order, and exactly why — sized to your practice, not a vendor's quota.
+          </p>
+
+          <div class="incl">
+            <div class="incl__row">
+              <span class="incl__n">A1</span>
+              <div>
+                <div class="incl__t">Practice &amp; goals assessment</div>
+                <div class="incl__d">Current stack, case mix and growth targets mapped to capability gaps.</div>
+              </div>
+            </div>
+            <div class="incl__row">
+              <span class="incl__n">A2</span>
+              <div>
+                <div class="incl__t">Sequenced purchase roadmap</div>
+                <div class="incl__d">The exact buy order across scanners, CBCT, milling, printing, surgery and sedation — staged by dependency and ROI.</div>
+              </div>
+            </div>
+            <div class="incl__row">
+              <span class="incl__n">A3</span>
+              <div>
+                <div class="incl__t">Vendor-neutral spec sheet</div>
+                <div class="incl__d">What each system must do for your workflow — no brand kickbacks, no inflated bundles.</div>
+              </div>
+            </div>
+            <div class="incl__row">
+              <span class="incl__n">A4</span>
+              <div>
+                <div class="incl__t">Expert sign-off + 30-day Q&amp;A</div>
+                <div class="incl__d">Dr. Emami personally approves the plan and answers your follow-ups for 30 days.</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer__cta">
+            <a class="btn btn--primary" href="/intake">Build my roadmap <span class="arr">→</span></a>
+            <a class="btn btn--ghost" href="/intake">Book a call</a>
+            <span class="fine">No retainer · No equipment sales · No upsell</span>
+          </div>
+        </div>
+
+        <!-- expert data block -->
+        <aside class="expert">
+          <span class="expert__idx" aria-hidden="true">DDS</span>
+          <div class="label label--cobalt">[ The reviewer ]</div>
+          <div class="expert__name">Dr. Justin Emami, DDS</div>
+          <div class="expert__role">Implant &amp; digital-dentistry practitioner</div>
+
+          <ul class="expert__creds">
+            <li><span class="b">01</span><span>Fellow — Misch International Implant Institute</span></li>
+            <li><span class="b">02</span><span>Master — International Congress of Oral Implantologists (ICOI)</span></li>
+            <li><span class="b">03</span><span>CEREC same-day crowns practitioner</span></li>
+            <li><span class="b">04</span><span>Full-arch implant practitioner</span></li>
+          </ul>
+
+          <p class="expert__moat">
+            He has personally implemented the scanners, CBCT, milling, sedation and full-arch systems he advises on. <b>Vendor-neutral is the <span class="hl">moat</span></b> — no commission, no allegiance, just the right sequence for your practice.
+          </p>
+        </aside>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING CTA ============ -->
+  <section class="close">
+    <div class="wrap">
+      <div class="close__grid">
+        <div>
+          <div class="label">[ 05 / Next step ]</div>
+          <h2 class="close__h">Spend $8,500 on <span class="o">certainty.</span> Not $150K on a guess.</h2>
+        </div>
+        <div class="close__cta">
+          <a class="btn btn--invert" href="/intake">Build my roadmap <span class="arr">→</span></a>
+          <a class="btn" style="background:transparent;color:#fff;border-color:#ffffff66;" href="/intake">Book a call</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__row">
+      <div class="foot__brand">
+        <svg class="brand__mark" viewBox="0 0 32 32" aria-hidden="true">
+          <rect x="1" y="1" width="30" height="30" fill="none" stroke="#F4F4F1" stroke-width="1.4"/>
+          <path d="M7 23 L7 9 L16 16 L25 9 L25 23" fill="none" stroke="#1F44FF" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+          <circle cx="16" cy="16" r="1.7" fill="#1F44FF"/>
+        </svg>
+        <span class="brand__name">Emami <b>Consulting</b></span>
+      </div>
+      <p class="foot__line">
+        Vendor-neutral dental technology advisory. <span class="c">Buy clarity before you buy technology.</span><br>
+        © Emami Consulting · Not a dental clinic · No equipment sales · No retainer.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Ensure autoplay on browsers that defer it; fail silently.
+  document.querySelectorAll('video').forEach(function (v) {
+    var p = v.play();
+    if (p && p.catch) { p.catch(function () {}); }
+  });
+</script>
+</body>
+</html>
